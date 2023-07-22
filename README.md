@@ -10,8 +10,14 @@ But to analyze and even classify the separate files and their membership, we hav
 
 
 #
+0. Extract only the required fields for analysis
+
+```bash
 
 1. Cat all the files of the same type together
+
+```bash
+cat *.SE.MATS.JC.txt
 2. Sort to make a union - this will be the master file
 3. Add an ID to the beginning
 4. Normalize the files afterwards - which means sorting each of the files
