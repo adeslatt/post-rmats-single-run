@@ -55,7 +55,7 @@ for file in $allSE; do
     cut -f 2-11,13-14 $file > $name_se
 
     # remove the header
-    tail +2 -1 $name_se > $tmp && mv $tmp $name_se
+    tail -n +2 $name_se > $tmp && mv $tmp $name_se
 done
 
 #
@@ -95,7 +95,7 @@ sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 $allSE > $allSorted
 # cut the last two columns - because they do not represent the sample specific data
 allCut="all.sorted.cut.SE.txt"
 
-cut -f 1-10 all.sorted.SE.txt > $allCut
+cut -f 1-10 $allSorted > $allCut
 
 #
 # step 5 - add an ID
@@ -116,7 +116,7 @@ cut -f 1-10 all.sorted.SE.txt > $allCut
 #          col 11 - downstreamEE
 
 allUnionFile="all.sorted.cut.nl.SE.txt"
-nl all.sorted.cut.SE.txt > $allUnionFile
+nl $allCut > $allUnionFile
 
 #
 # step 6 - sort the individual files
@@ -136,14 +136,14 @@ for file in $allSEend; do
 
 done
 
-allSortedSE="*.sorted.SE.txt"
 #
 # step 7 - normalize the individual files
 #
+allSortedSE="*.sorted.SE.txt"
 normSEend=".sorted.norm.SE.txt"
 
 for file in $allSortedSE; do
-    name="${file%-*.SE.txt"
+    name="${file%-*.sorted.SE.txt}"
     name_norm_se=$name$normSEend
     
     echo "file                = " $file
