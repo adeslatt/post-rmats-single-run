@@ -2,8 +2,17 @@
 #---------------------------------------------------------------------
 #
 # name:  extract_SE_coordinates.sh
-# purpose:
-#    step 1 - extract SE coordinages with IJC and SJC
+#
+# philosophy - always an elements of style approach
+#
+#  input - process - output
+#
+#
+# input:   the directory
+#
+# process:
+#
+#   step 1 - extract SE coordinages with IJC and SJC
 #
 #          take the output from rMATS with the coordinates of each
 #          splice defined
@@ -25,11 +34,18 @@
 #
 #          remove the header
 #
-#   step 2 - cat these all together
+#   step 2 - cat the SE files with coordinates and counts together (create a union)
 #         
-#   step 3
-
-# input:   the directory
+#   step 3 - unique sort master union file (all.SE.txt)
+#
+#   step 4 - cut the last two columns from sorted unique union file
+#
+#   step 5 - add an ID
+#
+#   step 6 - sort the individual files
+#
+#   step 7 - normalize the individual files
+#
 # output:  the coordinates and gene identifiers, strand for SE
 #---------------------------------------------------------------------
 
@@ -42,7 +58,7 @@ echo "Current Working Directory is = " $PWD
 echo "allSE                        = " $allSE
 
 #
-# step 1 - extract coordinages
+#   step 1 - extract coordinates from the SE file
 #
 for file in $allSE; do
     name="${file%-*.SE.MATS.JC.txt}"
@@ -59,15 +75,15 @@ for file in $allSE; do
 done
 
 #
-# step 2 - cat these files together
+#   step 2 - create the master union file by cat'ing these files together
 #
 allSEend="*.SE.txt"
-allSE="all.SE.txt"
+allSE="SE.all.txt"
 
 cat $allSEend > $allSE
 
 #
-# step 3 - unique sort master union file (all.SE.txt)
+#   step 3 - unique sort master union file (all.SE.txt)
 #
 # sort unique
 #   our column structure has changed
@@ -85,20 +101,20 @@ cat $allSEend > $allSE
 #          col 12 - SJC_SAMPLE_2
 #
 
-allSorted="all.sorted.SE.txt"
+allSorted="all.SE.sorted.txt"
 sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 $allSE > $allSorted
 
 
 #
-# step 4 - cut the last two columns from sorted unique union file
+#   step 4 - cut the last two columns from sorted unique union file
 #
 # cut the last two columns - because they do not represent the sample specific data
-allCut="all.sorted.cut.SE.txt"
+allCut="all.SE.sorted.cut.txt"
 
 cut -f 1-10 $allSorted > $allCut
 
 #
-# step 5 - add an ID
+#   step 5 - add an ID
 #
 # add an ID - counting each row
 # afterwards we have the following order in the allUnionFile
@@ -115,7 +131,7 @@ cut -f 1-10 $allSorted > $allCut
 #          col 10 - downstreamES
 #          col 11 - downstreamEE
 
-allUnionFile="all.sorted.cut.nl.SE.txt"
+allUnionFile="all.SE.sorted.cut.nl.txt"
 nl $allCut > $allUnionFile
 
 #
