@@ -141,7 +141,7 @@ nl $allCut > $allUnionFile
 sortedSEend=".sorted.SE.txt"
 
 for file in $allSEend; do
-    name="${file%-*.SE.txt}"
+    name="${file%.SE.txt}"
     name_sorted_se=$name$sortedSEend
 
     echo "file                = " $file
@@ -159,7 +159,7 @@ allSortedSE="*.sorted.SE.txt"
 normSEend=".sorted.norm.SE.txt"
 
 for file in $allSortedSE; do
-    name="${file%-*.sorted.SE.txt}"
+    name="${file%.sorted.SE.txt}"
     name_norm_se=$name$normSEend
     
     echo "file                = " $file
