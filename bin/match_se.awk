@@ -54,7 +54,7 @@ NR == FNR {
   #  col         col
   #   11          12
   #
-  value = $11 OFS $12
+  value = $11"\t"$12
   matchArray[key] = value
   next
 }
@@ -64,8 +64,8 @@ NR == FNR {
 {
   key = $4 OFS $5 OFS $6 OFS $7 OFS $8 OFS $9 OFS $10 OFS $11
   if (key in matchArray) {
-    print $0, matchArray[key]
+    print $0"\t"matchArray[key]
   } else {
-    print $0, "0 0"
+    print $0"\t0\t0"
   }
 }

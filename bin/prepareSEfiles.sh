@@ -46,6 +46,20 @@
 #
 #   step 7 - normalize the individual files
 #
+#   step 8 - break normalized files into IJC, SJC files
+#          - coordinate file master will be ID and coordinates as it is
+#          - norm IJC file will be ID IJC
+#          - norm SJC file will be ID SJC
+#
+#   step 9 - create final matrix
+#            join all the files together by ID
+#            as each file is joined add to the header the name.
+#            finish with adding the header to the final matrix
+#            all.SE.IJC.txt
+#            all.SE.SJC.txt
+#
+#            
+#
 # output:  the coordinates and gene identifiers, strand for SE
 #---------------------------------------------------------------------
 
@@ -131,8 +145,8 @@ cut -f 1-10 $allSorted > $allCut
 #          col 10 - downstreamES
 #          col 11 - downstreamEE
 
-allUnionFile="all.SE.sorted.cut.nl.txt"
-nl $allCut > $allUnionFile
+seCoordinatesFile="SE.coordinates.matrix.txt"
+nl $allCut > $seCoordinatesFile
 
 #
 # step 6 - sort the individual files
@@ -166,6 +180,127 @@ for file in $allSortedSE; do
     echo "name                = " $name
     echo "name_norm_se        = " $name_norm_se
 
-    awk -f "../bin/match_se.awk" $file $allUnionFile > $name$normSEend
+    awk -f "../bin/match_se.awk" $file $seCoordinatesFile > $name$normSEend
 
 done
+
+#   step 8 - break normalized files into IJC, SJC files
+#          - coordinate file master will be ID and coordinates as it is
+#          - norm IJC file will be ID IJC
+#          - norm SJC file will be ID SJC
+#
+allNormSE="*.sorted.norm.SE.txt"
+ijc=".IJC.txt"
+sjc=".SJC.txt"
+
+for file in $allNormSE; do
+    name="${file%.sorted.norm.SE.txt}"
+    name_ijc=$name$ijc
+    name_sjc=$name$sjc
+
+    echo "file                = " $file
+    echo "name                = " $name
+    echo "name_ijc            = " $name_ijc
+    echo "name_sjc            = " $name_sjc
+
+    cut -f 1,12 $file > $name_ijc
+    cut -f 1,13 $file > $name_sjc
+
+done
+
+    
+#   step 9 - create final matrix
+#            join all the files together by ID
+#            as each file is joined add to the header the name.
+#            finish with adding the header to the final matrix
+#            all.SE.IJC.txt
+#            all.SE.SJC.txt
+#
+seCoordinatesFile="SE.coordinates.matrix.txt"
+
+IJC_matrix="SE.IJC.matrix.txt"
+IJC_w_coordinates_matrix="SE.IJC.w.coordinates.matrix.txt"
+SJC_matrix="SE.SJC.matrix.txt"
+SJC_w_coordinates_matrix="SE.SJC.w.coordinates.matrix.txt"
+allIJC="*.IJC.txt"
+allSJC="*.SJC.txt"
+
+#
+# need tmp files for temporality
+#
+tmp_IJC="tmp_IJC.txt"
+tmp_SJC="tmp_SJC.txt"
+tmp_coordinates_IJC="tmp_coord_IJC.txt"
+tmp_coordinates_SJC="tmp_coord_SJC.txt"
+
+#
+# headers
+#
+header_file="SE.header.txt"
+coordinates_header_file="SE.coordinates.header.txt"
+
+header="ID"
+coordinates_header="ID	GeneID	geneSymbol	chr	strand	exonStart_0base	exonEnd	upstreamES	upstreamEE	downstreamES	downstreamEE"
+tab="	"
+
+#
+# Populate the IJC and SJC matrices with the ID from the coordinate file
+#
+cut -f 1 $seCoordinatesFile > $IJC_matrix
+cut -f 1 $seCoordinatesFile > $SJC_matrix
+
+cp $seCoordinatesFile $IJC_w_coordinates_matrix
+cp $seCoordinatesFile $SJC_w_coordinates_matrix
+
+
+for file in $allIJC; do
+    name="${file%.IJC.txt}"
+    header=$header$tab$name
+    coordinates_header=$coordinates_header$tab$name
+    
+    echo "file                = " $file
+    echo "name                = " $name
+    echo "header              = " $header
+    echo "coordinates_header  = " $coordinates_header
+    
+    join -1 1 -2 1 $IJC_matrix $file > $tmp_IJC
+    join -1 1 -2 1 $SJC_matrix $file > $tmp_SJC
+
+    join -1 1 -2 1 $IJC_w_coordinates_matrix $file > $tmp_coordinates_IJC
+    join -1 1 -2 1 $SJC_w_coordinates_matrix $file > $tmp_coordinates_SJC
+    
+    cp $tmp_IJC $IJC_matrix
+    cp $tmp_SJC $SJC_matrix
+
+    cp $tmp_coordinates_IJC $IJC_w_coordinates_matrix
+    cp $tmp_coordinates_SJC $SJC_w_coordinates_matrix
+    
+done
+
+#
+# Add header
+#
+echo $header > $header_file
+echo $coordinates_header > $coordinates_header_file
+
+cat $header_file $IJC_matrix > $tmp_IJC
+cat $header_file $SJC_matrix > $tmp_SJC
+
+cat $coordinates_header_file $IJC_w_coordinates_matrix > $tmp_coordinates_IJC
+cat $coordinates_header_file $SJC_w_coordinates_matrix > $tmp_coordinates_SJC
+
+cp $tmp_IJC $IJC_matrix
+cp $tmp_SJC $SJC_matrix
+
+cp $tmp_coordinates_IJC $IJC_w_coordinates_matrix
+cp $tmp_coordinates_SJC $SJC_w_coordinates_matrix
+
+#
+# clean up
+#
+rm $tmp_IJC
+rm $tmp_SJC
+
+rm $tmp_coordinates_IJC
+rm $tmp_coordinates_SJC
+
