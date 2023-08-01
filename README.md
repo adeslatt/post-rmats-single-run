@@ -20,6 +20,14 @@ The addition of annotation information also helps to keep the user of this infor
 
 This is very helpful in putting the information together.
 
+## Philosophy
+
+My philosophy - is always an elements of style approach.  
+
+`Input` - `process` - `output`
+
+In the case of preparing the matrices to allow the analysis of alternative splicing with coordinates and counts from multiple samples 
+
 ## `TO DO`
 
 * Create similiar matrices for the A3SS, A5SS, RI and MXE data
