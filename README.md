@@ -1,6 +1,6 @@
 # post-rmats-single-run
 [Kids First Workflow v4](https://github.com/kids-first/kf-rnaseq-workflow)
-is an example of running rMATS in the signular that is running it on only one RNA-seq file at a time.
+is an example of running [rMATS](https://github.com/Xinglab/rmats-turbo#readme) in the signular that is running it on only one RNA-seq file at a time.
 
 Because the files are treated individually, splice variants, different alternative splice results,
 are detected separately and may not be present in every sample, donor, etc.
@@ -20,7 +20,7 @@ The addition of annotation information also helps to keep the user of this infor
 
 This is very helpful in putting the information together.
 
-* `**TO BE DONE**`
+# `**TO BE DONE**`
 
 * Create similiar matrices for the A3SS, A5SS, RI and MXE data
 
