@@ -2,37 +2,25 @@
 [Kids First Workflow v4](https://github.com/kids-first/kf-rnaseq-workflow)
 is an example of running rMATS in the signular that is running it on only one RNA-seq file at a time.
 
-
 Because the files are treated individually, splice variants, different alternative splice results,
 are detected separately and may not be present in every sample, donor, etc.
 
 But to analyze and even classify the separate files and their membership, we have to do the work.
 
+The script `prepareSEfiles.sh` takes the output from supplied single run rMATS analyses and makes `4` matricies:
 
-#
-0. Extract only the required fields for analysis
+* `SE.SJC.matrix.txt` - the matrix with the normalized IDs based upon the non-redundant union of all the SE events in supplied files and counts for the skipped exon junctions
+* `SE.SJC.w.coordinates.matrix.txt` - containing the coordinates for the exon in question, with upstream and downstream exon coordinates
+* `SE.IJC.matrix.txt` - the matrix with the normalized IDS and included junction counts
+* `SE.IJC.w.coordinates.matrix.txt` - containing the coordinates for the junction that the counts are concerning.
 
-```bash
+The coordinates information is the same between the IJC and SJC numbers.  Though somewhat confusing nomenclature from rMATS the IJC counts are most informative in the sense of the positive nature of the counting and confirming information concerning the junction in question.  
 
-1. Cat all the files of the same type together
+The addition of annotation information also helps to keep the user of this information informed regarding the subject of the evidence.
 
-```bash
-cat *.SE.MATS.JC.txt
-2. Sort to make a union - this will be the master file
-3. Add an ID to the beginning
-4. Normalize the files afterwards - which means sorting each of the files
-5. and then creating a hash of the master file (the union
+This is very helpful in putting the information together.
 
-To create a normalized file -- 5 separate awk scripts were created.
+* `**TO BE DONE**`
 
-match_se.awk
-match_a3ss.awk
-match_a5ss.awk
-match_ri.awk
-match_mxe.awk
+* Create similiar matrices for the A3SS, A5SS, RI and MXE data
 
-these are each run as follows:
-
-```
-awk -f match_se.awk B A
-```
