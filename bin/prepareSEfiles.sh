@@ -224,6 +224,8 @@ SJC_matrix="SE.SJC.matrix.txt"
 SJC_w_coordinates_matrix="SE.SJC.w.coordinates.matrix.txt"
 allIJC="*.IJC.txt"
 allSJC="*.SJC.txt"
+IJCend=".IJC.txt"
+SJCend=".SJC.txt"
 
 #
 # need tmp files for temporality
@@ -232,6 +234,7 @@ tmp_IJC="tmp_IJC.txt"
 tmp_SJC="tmp_SJC.txt"
 tmp_coordinates_IJC="tmp_coord_IJC.txt"
 tmp_coordinates_SJC="tmp_coord_SJC.txt"
+
 
 #
 # headers
@@ -257,17 +260,21 @@ for file in $allIJC; do
     name="${file%.IJC.txt}"
     header=$header$tab$name
     coordinates_header=$coordinates_header$tab$name
+
+    IJCfile=$name$IJCend
+    SJCfile=$name$SJCend
     
-    echo "file                = " $file
+    echo "IJCfile             = " $IJCfile
+    echo "SJCfile             = " $SJCfile
     echo "name                = " $name
     echo "header              = " $header
     echo "coordinates_header  = " $coordinates_header
     
-    join -1 1 -2 1 $IJC_matrix $file > $tmp_IJC
-    join -1 1 -2 1 $SJC_matrix $file > $tmp_SJC
+    join -1 1 -2 1 $IJC_matrix $IJCfile > $tmp_IJC
+    join -1 1 -2 1 $SJC_matrix $SJCfile > $tmp_SJC
 
-    join -1 1 -2 1 $IJC_w_coordinates_matrix $file > $tmp_coordinates_IJC
-    join -1 1 -2 1 $SJC_w_coordinates_matrix $file > $tmp_coordinates_SJC
+    join -1 1 -2 1 $IJC_w_coordinates_matrix $IJCfile > $tmp_coordinates_IJC
+    join -1 1 -2 1 $SJC_w_coordinates_matrix $SJCfile > $tmp_coordinates_SJC
     
     cp $tmp_IJC $IJC_matrix
     cp $tmp_SJC $SJC_matrix
