@@ -39,7 +39,7 @@ This is done using two awk scripts:
 
 * `make_bed_se.awk` - this file creates from the `SE.coordinates.matrix.txt` an appropriate bed file `SE.coordinates.bed` that may be uploaded as a custom track on the UCSC Genome Browser.
 
-The `prepareSEfiles.sh` takes 10 steps to produce the final output.   These steps are documented in the script itself. 
+The [`prepareSEfiles.sh`](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareSEfiles.sh) takes 10 steps to produce the final output.   These steps are documented in the script itself. 
 
 ## `TO DO`
 
