@@ -37,7 +37,7 @@ This is done using two awk scripts:
 
 * `match_se.awk`  - this file is used to normalize all the samples put in the matrix so that for each junction their is a uniform ID.  Match uses associated arrays in awk to match the coordinates and if a sample has counts for this junction, they are added, if not, zeros are placed instead creating a non-empty complete matrix - important for analysis.
 
-* `make_bed_se.awk` - this file creates from the `SE.coordinates.matrix.txt` an appropriate bed file `SE.coordinates.bed` that may be uploaded as a custom track on the UCSC Genome Browser.
+* [`make_bed_se.awk`](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_bed_se.awk) - this file creates from the `SE.coordinates.matrix.txt` an appropriate bed file `SE.coordinates.bed` that may be uploaded as a custom track on the UCSC Genome Browser.
 
 The [`prepareSEfiles.sh`](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareSEfiles.sh) takes 10 steps to produce the final output.   These steps are documented in the script itself. 
 
