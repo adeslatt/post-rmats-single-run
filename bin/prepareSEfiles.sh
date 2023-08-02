@@ -51,13 +51,18 @@
 #          - norm IJC file will be ID IJC
 #          - norm SJC file will be ID SJC
 #
-#   step 9 - create final matrix
+#   step 9 - create SE.coordinates.matrix.txt
+#                   SE.IJC.w.coordinates.matrix.txt
+#                   SE.SJC.w.coordinates.matrix.txt
+#
 #            join all the files together by ID
 #            as each file is joined add to the header the name.
 #            finish with adding the header to the final matrix
 #            all.SE.IJC.txt
 #            all.SE.SJC.txt
 #
+#   step 10 - create the SE.coordinates.bed file for display
+#            in a genome browser, such as the UCSC genome browser
 #            
 #
 # output:  the coordinates and gene identifiers, strand for SE
@@ -311,3 +316,10 @@ rm $tmp_SJC
 rm $tmp_coordinates_IJC
 rm $tmp_coordinates_SJC
 
+#
+#   step 10 - create the SE.coordinates.bed file for display
+#            in a genome browser, such as the UCSC genome browser
+#            
+
+echo "track name=rMATS_SE description=\"rMATS SE Events DS-AML\"" > SE.coordinates.bed
+awk -f ../bin/make_bed_se.awk SE.coordinates.matrix.txt >> SE.coordinates.bed
