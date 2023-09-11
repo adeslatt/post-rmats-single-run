@@ -224,9 +224,13 @@ done
 seCoordinatesFile="SE.coordinates.matrix.txt"
 
 IJC_matrix="SE.IJC.matrix.txt"
+IJC_matrix_csv="SE.IJC.matrix.csv"
 IJC_w_coordinates_matrix="SE.IJC.w.coordinates.matrix.txt"
+IJC_w_coordinates_matrix_csv="SE.IJC.w.coordinates.matrix.csv"
 SJC_matrix="SE.SJC.matrix.txt"
+SJC_matrix_csv="SE.SJC.matrix.csv"
 SJC_w_coordinates_matrix="SE.SJC.w.coordinates.matrix.txt"
+SJC_w_coordinates_matrix_csv="SE.SJC.w.coordinates.matrix.csv"
 allIJC="*.IJC.txt"
 allSJC="*.SJC.txt"
 IJCend=".IJC.txt"
@@ -316,6 +320,14 @@ rm $tmp_SJC
 rm $tmp_coordinates_IJC
 rm $tmp_coordinates_SJC
 
+#
+# add a csv version for files
+#
+sed  's/ /,/g' < $IJC_matrix > $IJC_matrix_csv
+sed  's/ /,/g' < $SJC_matrix > $SJC_matrix_csv
+
+sed 's/ /,/g' < $IJC_w_coordinates_matrix > $IJC_w_coordinates_matrix_csv
+sed 's/ /,/g' < $SJC_w_coordinates_matrix > $SJC_w_coordinates_matrix_csv
 #
 #   step 10 - create the SE.coordinates.bed file for display
 #            in a genome browser, such as the UCSC genome browser
