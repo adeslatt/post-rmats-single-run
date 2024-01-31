@@ -1,7 +1,7 @@
 #!/bin/bash
 #---------------------------------------------------------------------
 #
-# name:  extract_SE_coordinates.sh
+# name:  prepareSEfiles.sh
 #
 # philosophy - always an elements of style approach
 #
@@ -185,7 +185,7 @@ for file in $allSortedSE; do
     echo "name                = " $name
     echo "name_norm_se        = " $name_norm_se
 
-    awk -f "~/Desktop/projects/post-rmats-single-run/bin/match_se.awk" $file $seCoordinatesFile > $name$normSEend
+    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_se.awk" $file $seCoordinatesFile > $name$normSEend
 
 done
 
@@ -334,4 +334,4 @@ sed 's/ /,/g' < $SJC_w_coordinates_matrix > $SJC_w_coordinates_matrix_csv
 #            
 
 echo "track name=rMATS_SE description=\"rMATS SE Events DS-AML\"" > SE.coordinates.bed
-awk -f ~/Desktop/projects/post-rmats-single-run/bin/make_bed_se.awk SE.coordinates.matrix.txt >> SE.coordinates.bed
+awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_se.awk SE.coordinates.matrix.txt >> SE.coordinates.bed
