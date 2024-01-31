@@ -89,7 +89,7 @@ for file in $allMXE; do
     echo "name                = " $name
     echo "name_mxe             = " $name_mxe
     
-    cut -f 2-11,13-14 $file > $name_mxe
+    cut -f 2-13,15-16 $file > $name_mxe
 
     # remove the header
     tail -n +2 $name_mxe > $tmp && mv $tmp $name_mxe
@@ -112,18 +112,20 @@ cat $allMXEend > $allMXE
 #          col 2 - geneSymbol
 #          col 3 - chr
 #          col 4 - strand
-#          col 5 - exonStart_0base
-#          col 6 - exonEnd
-#          col 7 - upstreamES
-#          col 8 - upstreamEE
-#          col 9 - downstreamES
-#          col 10 - downstreamEE
-#          col 11 - IJC_SAMPLE_1
-#          col 12 - SJC_SAMPLE_2
+#          col 5 - 1stexonStart_0base
+#          col 6 - 1stexonEnd
+#          col 7 - 2ndexonStart_0base
+#          col 8 - 2ndexonEnd
+#          col 9 - upstreamES
+#          col 10 - upstreamEE
+#          col 11 - downstreamES
+#          col 12 - downstreamEE
+#          col 13 - IJC_SAMPLE_1
+#          col 14 - SJC_SAMPLE_2
 #
 
 allSorted="all.MXE.sorted.txt"
-sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 $allMXE > $allSorted
+sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 -k11,11 -k12,12 $allMXE > $allSorted
 
 
 #
@@ -132,7 +134,7 @@ sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 $allMXE > $allSorted
 # cut the last two columns - because they do not represent the sample specific data
 allCut="all.MXE.sorted.cut.txt"
 
-cut -f 1-10 $allSorted > $allCut
+cut -f 1-12 $allSorted > $allCut
 
 #
 #   step 5 - add an ID
@@ -145,12 +147,14 @@ cut -f 1-10 $allSorted > $allCut
 #          col 3 - geneSymbol
 #          col 4 - chr
 #          col 5 - strand
-#          col 6 - exonStart_0base
-#          col 7 - exonEnd
-#          col 8 - upstreamES
-#          col 9 - upstreamEE
-#          col 10 - downstreamES
-#          col 11 - downstreamEE
+#          col 6 - 1stexonStart_0base
+#          col 7 - 1stexonEnd
+#          col 8 - 2ndexonStart_0base
+#          col 9 - 2ndexonEnd
+#          col 10 - upstreamES
+#          col 11 - upstreamEE
+#          col 12 - downstreamES
+#          col 13 - downstreamEE
 
 mxeCoordinatesFile="MXE.coordinates.matrix.txt"
 nl $allCut > $mxeCoordinatesFile
@@ -167,9 +171,9 @@ for file in $allMXEend; do
 
     echo "file                = " $file
     echo "name                = " $name
-    echo "name_sorted_mxe      = " $name_sorted_mxe
+    echo "name_sorted_mxe     = " $name_sorted_mxe
 
-    sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 $file > $name_sorted_mxe
+    sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 -k11,11 -k12,12 $file > $name_sorted_mxe
 
 done
 
@@ -185,7 +189,7 @@ for file in $allSortedMXE; do
     
     echo "file                = " $file
     echo "name                = " $name
-    echo "name_norm_mxe        = " $name_norm_mxe
+    echo "name_norm_mxe       = " $name_norm_mxe
 
     awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_mxe.awk" $file $mxeCoordinatesFile > $name$normMXEend
 
@@ -289,7 +293,6 @@ for file in $allIJC; do
     
     cp $tmp_IJC $IJC_matrix
     cp $tmp_SJC $SJC_matrix
-
     cp $tmp_coordinates_IJC $IJC_w_coordinates_matrix
     cp $tmp_coordinates_SJC $SJC_w_coordinates_matrix
     

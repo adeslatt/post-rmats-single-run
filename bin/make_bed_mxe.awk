@@ -40,7 +40,7 @@
 #    col 8  becomes col 7 - repeat of col 2
 #    col 11 becomes col 8 - repeat of col 3
 #    0 black color  col 9
-#    3 exon count   col 10
+#    4 exon count   col 10
 #    some math (col 11 - col 10),(col 7 - col 6), (col 9 - col 8), (col 11 - col 10), (col 13 - col 12) sizes of the exons upstream, 1st exon, 2ndexon, downstream
 #    come more math (col 6 - col 6),(col 8 - col 6),(col 10 - col 6) (col 12 - col 6) - the relative start positions of the exons
 #
@@ -72,18 +72,19 @@
 #
 {
     # trippy for me is that the exons are now rearranged
-    # exon2 is the exon of interest
+    # exon2  is one of the two  exons of interest
+    # exon3  is the second of two exons of interest
     # exon1 is the upstream exon
-    # exon3 is the downstream exon
-    exon1 = $9 - $8
-    exon2 = $7 - $6
-    exon3 = $11 - $10
-    exon4 = $13 - $12
+    # exon4 is the downstream exon
+    exon1 = $11 - $10 #upstream
+    exon2 = $7 - $6   #1st exon in MXE 
+    exon3 = $9 - $8   #2nd exon in MXE
+    exon4 = $13 - $12 #downstream
 
     # so the transcript start is the upstream start col
-    start1 = $8 - $8
-    start2 = $6 - $8
-    start3 = $10 - $8
-    start4 = $12 - $8
-    print $4 OFS $8 OFS $11 OFS $1 OFS 0 OFS $5 OFS $8 OFS $11 OFS 0 OFS 3 OFS exon1","exon2","exon3","exon4 OFS start1","start2","start3","start4
+    start1 = $10 - $10
+    start2 = $6  - $10
+    start3 = $8  - $10
+    start4 = $12 - $10
+    print $4 OFS $10 OFS $13 OFS $1 OFS 0 OFS $5 OFS $10 OFS $13 OFS 0 OFS 4 OFS exon1","exon2","exon3","exon4 OFS start1","start2","start3","start4
 }
