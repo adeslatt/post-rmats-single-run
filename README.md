@@ -18,7 +18,7 @@ Output from an rMATS run
 From rMATS documentation, we learn the SE event: exonStart_0base exonEnd upstreamES upstreamEE downstreamES downstreamEE
 The inclusion form (IJC) includes the target exon (exonStart_0base, exonEnd)
 
-The script `[prepareSEfiles.sh](https://github.com/adeslatt/post-rmats-single-run/bin/prepareSEfiles.sh)` takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
+The script [prepareSEfiles.sh](https://github.com/adeslatt/post-rmats-single-run/bin/prepareSEfiles.sh) takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
 * [match_se.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_se.awk)
 * [make_bed_se.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_bed_se.awk)
 
@@ -36,7 +36,7 @@ From the rMATS documentation we learn that the MXE event: MXE: 1stExonStart_0bas
 * If the strand is +, then the inclusion form includes the 1st exon (1stExonStart_0base, 1stExonEnd) and skips the 2nd exon
 * If the strand is -, then the inclusion form includes the 2nd exon (2ndExonStart_0base, 2ndExonEnd) and skips the 1st exon
 
-The script `[prepareMXEfiles.sh](https://github.com/adeslatt/post-rmats-single-run/bin/prepareMXEfiles.sh)` takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
+The script [prepareMXEfiles.sh](https://github.com/adeslatt/post-rmats-single-run/bin/prepareMXEfiles.sh) takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
 
 * [match_mxe.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_mxe.awk)
 * [make_bed_mxe.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_bed_mxe.awk)
