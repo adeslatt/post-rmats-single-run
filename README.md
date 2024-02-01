@@ -7,14 +7,20 @@ are detected separately and may not be present in every sample, donor, etc.
 
 But to analyze and even classify the separate files and their membership, we have to do the work.
 
-## Skipped Exon (SE)
+## Inputs
+
+Output from an rMATS run
+
+## Process
+
+### Skipped Exon (SE)
 
 From rMATS documentation, we learn the SE event: exonStart_0base exonEnd upstreamES upstreamEE downstreamES downstreamEE
 The inclusion form (IJC) includes the target exon (exonStart_0base, exonEnd)
 
 The script `[prepareSEfiles.sh](https://github.com/adeslatt/post-rmats-single-run/bin/prepareSEfiles.sh)` takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
-* make_se.awk
-* make_se_bed.awk
+* [match_se.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_se.awk)
+* [make_se_bed.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_se.awk)
 
 * `SE.SJC.matrix.txt` - the matrix with the normalized IDs based upon the non-redundant union of all the SE events in supplied files and counts for the skipped exon junctions
 * `SE.SJC.w.coordinates.matrix.txt` - containing the coordinates for the exon in question, with upstream and downstream exon coordinates
@@ -24,11 +30,16 @@ The script `[prepareSEfiles.sh](https://github.com/adeslatt/post-rmats-single-ru
 Also yielding the bed file of all the events that can be loaded as a custom track in the UCSC browser.
 * `SE.coordinates.bed`
 
-## Mutually Excluded Exon (MXE)
+### Mutually Excluded Exon (MXE)
 
 From the rMATS documentation we learn that the MXE event: MXE: 1stExonStart_0base 1stExonEnd 2ndExonStart_0base 2ndExonEnd upstreamES upstreamEE downstreamES downstreamEE
 * If the strand is +, then the inclusion form includes the 1st exon (1stExonStart_0base, 1stExonEnd) and skips the 2nd exon
 * If the strand is -, then the inclusion form includes the 2nd exon (2ndExonStart_0base, 2ndExonEnd) and skips the 1st exon
+
+The script `[prepareMXEfiles.sh](https://github.com/adeslatt/post-rmats-single-run/bin/prepareMXEfiles.sh)` takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
+
+* [match_mxe.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_mxe.awk)
+* [make_mxe_bed.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_mxe.awk)
 
 * `MXE.SJC.matrix.txt` - the matrix with the normalized IDs based upon the non-redundant union of all the SE events in supplied files and counts for the skipped exon junctions
 * `MXE.SJC.w.coordinates.matrix.txt` - containing the coordinates for the exon in question, with upstream and downstream exon coordinates
