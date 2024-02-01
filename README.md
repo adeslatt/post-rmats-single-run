@@ -20,7 +20,7 @@ The inclusion form (IJC) includes the target exon (exonStart_0base, exonEnd)
 
 The script `[prepareSEfiles.sh](https://github.com/adeslatt/post-rmats-single-run/bin/prepareSEfiles.sh)` takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
 * [match_se.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_se.awk)
-* [make_se_bed.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_se.awk)
+* [make_bed_se.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_bed_se.awk)
 
 * `SE.SJC.matrix.txt` - the matrix with the normalized IDs based upon the non-redundant union of all the SE events in supplied files and counts for the skipped exon junctions
 * `SE.SJC.w.coordinates.matrix.txt` - containing the coordinates for the exon in question, with upstream and downstream exon coordinates
@@ -39,7 +39,7 @@ From the rMATS documentation we learn that the MXE event: MXE: 1stExonStart_0bas
 The script `[prepareMXEfiles.sh](https://github.com/adeslatt/post-rmats-single-run/bin/prepareMXEfiles.sh)` takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
 
 * [match_mxe.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_mxe.awk)
-* [make_mxe_bed.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_mxe.awk)
+* [make_bed_mxe.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_bed_mxe.awk)
 
 * `MXE.SJC.matrix.txt` - the matrix with the normalized IDs based upon the non-redundant union of all the SE events in supplied files and counts for the skipped exon junctions
 * `MXE.SJC.w.coordinates.matrix.txt` - containing the coordinates for the exon in question, with upstream and downstream exon coordinates
