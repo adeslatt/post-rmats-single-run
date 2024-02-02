@@ -1,1 +1,0 @@
-paired.TAM.AMLprogression/PAWHSD-40A-01R/PAWHSD-40A-01R_RBS_withJunctionsOnGenome_dupsFlagged_r1.filtered.SE.MATS.JC.txt

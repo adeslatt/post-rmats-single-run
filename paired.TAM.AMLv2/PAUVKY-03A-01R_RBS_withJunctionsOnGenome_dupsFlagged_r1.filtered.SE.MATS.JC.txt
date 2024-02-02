@@ -1,1 +1,0 @@
-paired.TAM.AMLprogression/PAUVKY-03A-01R/PAUVKY-03A-01R_RBS_withJunctionsOnGenome_dupsFlagged_r1.filtered.SE.MATS.JC.txt
