@@ -1,0 +1,87 @@
+# If trying to build this outside of the catalog,
+#  comment out/remove CATALOG blocks.
+#  Would have used a variable, but Docker doesn't
+#  seem to have a simple way to do this (:
+
+FROM ubuntu
+
+ENV DEBIAN_FRONTEND "noninteractive"
+ENV TZ "America/New_York"
+
+RUN set -x \
+  && echo "Preparing system..." \
+  && apt-get -y update \
+  && apt-get -y install \
+    curl \
+    fuse \
+    git \
+    nginx \
+    python3-dev \
+    python3-pip \
+  && rm -rf /var/lib/apt/lists/* \
+  && pip3 install --no-cache-dir --upgrade pip
+
+RUN set -x \
+  && echo "Installing jupyter kernel..." \
+  && pip3 install --no-cache-dir ipython_genutils ipykernel \
+  && python3 -m ipykernel install
+
+ADD deps.txt /app/deps.txt
+RUN set -x \
+  && echo "Installing system dependencies from deps.txt..." \
+  && apt-get -y update \
+  && apt-get -y install $(grep -v '^#' /app/deps.txt) \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm /app/deps.txt
+
+ADD requirements.txt /app/requirements.txt
+RUN set -x \
+  && echo "Installing python dependencies from requirements.txt..." \
+  && pip3 install --no-cache-dir -r /app/requirements.txt \
+  && rm /app/requirements.txt
+
+ARG appyter_version=appyter[production]@git+https://github.com/Maayanlab/appyter
+RUN set -x \
+  && echo "Installing appyter..." \
+  && pip3 install --no-cache-dir --upgrade ${appyter_version}
+
+# BEGIN CATALOG
+COPY catalog_helper.py /bin/appyter-catalog-helper
+RUN set -x \
+  && echo "Installing catalog helper..." \
+  && chmod 755 /bin/appyter-catalog-helper
+# END CATALOG
+
+RUN set -x \
+  && echo "Preparing user..." \
+  && useradd -ms /bin/bash -d /app app \
+  && groupadd fuse \
+  && adduser app fuse \
+  && mkdir -p /app /app/data /data \
+  && chown -R app:app /app /data \
+  && chmod og+rwx -R /var/lib/nginx /var/log/nginx
+
+USER app
+WORKDIR /app
+EXPOSE 5000
+VOLUME /app/data
+
+ENV APPYTER_PREFIX "/"
+ENV APPYTER_HOST "0.0.0.0"
+ENV APPYTER_PORT "5000"
+ENV APPYTER_DEBUG "false"
+ENV APPYTER_IPYNB "Enrichment-Appyter.ipynb"
+ENV APPYTER_PROFILE "biojupies"
+ENV APPYTER_EXTRAS '["hide-code", "toggle-code"]'
+
+ENV PATH "/app:$PATH"
+ENV PYTHONPATH "/app:$PYTHONPATH"
+
+COPY --chown=app:app . /app
+
+# BEGIN CATALOG
+RUN rm /app/catalog_helper.py
+RUN appyter-catalog-helper setup
+# END CATALOG
+
+CMD [ "appyter", "flask-app" ]

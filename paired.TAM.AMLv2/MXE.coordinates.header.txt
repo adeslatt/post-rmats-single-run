@@ -1,0 +1,1 @@
+ID GeneID geneSymbol chr strand 1stStart_0base 1stexonEnd 2ndExonStart_0base 2ndExonEnd upstreamES upstreamEE downstreamES downstreamEE PAUVKY-03A PAUVKY-40A PAWHSD-03A PAWHSD-40A PAWSNZ-03A PAWSNZ-40A _1_PAUTLA-03A _1_PAUTLA-40A _1_PAVUDU-03A _1_PAVUDU-40A
