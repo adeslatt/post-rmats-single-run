@@ -86,5 +86,9 @@
     start2 = $6  - $10
     start3 = $8  - $10
     start4 = $12 - $10
-    print $4 OFS $10 OFS $13 OFS $1 OFS 0 OFS $5 OFS $10 OFS $13 OFS 0 OFS 4 OFS exon1","exon2","exon3","exon4 OFS start1","start2","start3","start4
+
+    # so the gene symbol that gets printed out does not have quotes on it - lets strip them
+    gsub(/"/, "", $3)
+    
+    print $4 OFS $10 OFS $13 OFS $3"_"$1 OFS 0 OFS $5 OFS $10 OFS $13 OFS 0 OFS 4 OFS exon1","exon2","exon3","exon4 OFS start1","start2","start3","start4
 }
