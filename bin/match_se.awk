@@ -62,10 +62,13 @@ NR == FNR {
 # Check if the key from the union file exists in the individual sample array,
 # if yes, output the matching values from B; otherwise, output columns from A with zeros for columns 7 and 8
 {
-  key = $4 OFS $5 OFS $6 OFS $7 OFS $8 OFS $9 OFS $10 OFS $11
-  if (key in matchArray) {
-    print $0"\t"matchArray[key]
-  } else {
-    print $0"\t0\t0"
-  }
+    OFS = "\t"
+
+    key = $4 OFS $5 OFS $6 OFS $7 OFS $8 OFS $9 OFS $10 OFS $11
+
+    if (key in matchArray) {
+	print $0"\t"matchArray[key]
+    } else {
+	print $0"\t0\t0"
+    }
 }

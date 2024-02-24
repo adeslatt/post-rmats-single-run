@@ -71,6 +71,8 @@
 #  OUTPUT: MXE.coordinates.matrix.bed
 #
 {
+    OFS = "\t"
+    
     # trippy for me is that the exons are now rearranged
     # exon2  is one of the two  exons of interest
     # exon3  is the second of two exons of interest

@@ -69,6 +69,9 @@
 #  OUTPUT: SE.coordinates.matrix.bed
 #
 {
+
+    OFS = "\t"
+    
     # trippy for me is that the exons are now rearranged
     # exon2 is the exon of interest
     # exon1 is the upstream exon
