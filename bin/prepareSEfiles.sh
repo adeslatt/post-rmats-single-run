@@ -208,8 +208,8 @@ for file in $allNormSE; do
     echo "name_ijc            = " $name_ijc
     echo "name_sjc            = " $name_sjc
 
-    cut -f 1,14 $file > $name_ijc
-    cut -f 1,15 $file > $name_sjc
+    cut -f 1,12 $file > $name_ijc
+    cut -f 1,13 $file > $name_sjc
 
 done
 
