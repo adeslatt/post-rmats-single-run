@@ -73,6 +73,6 @@ The [`prepareSEfiles.sh`](https://github.com/adeslatt/post-rmats-single-run/blob
 
 ## `TO DO`
 
-* Create similiar matrices for the A3SS, A5SS, RI and MXE data
+* Create similiar matrices for the A3SS, A5SS, RI
 * Turn into a proper Nextflow workflow to run on a platform - Lifebit's Data Science Suite Module (previously CloudOS).
 
