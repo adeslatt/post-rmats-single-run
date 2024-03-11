@@ -40,6 +40,7 @@
 # this ensures all the individual samples files have the same structure and IDs for making a single matrix
 #
 NR == FNR {
+  OFS="\t"
   #
   # The key is made up of the columns that uniquely define the RI
   # chr strand exonStart_0base exonEnd upstreamES upstreamEE downstreamES downstreamEE
