@@ -1,7 +1,7 @@
 #!/bin/bash
 #---------------------------------------------------------------------
 #
-# name:  prepareMXEfiles.sh
+# name:  prepareRIfiles.sh
 #
 # philosophy - always an elements of style approach
 #
@@ -12,33 +12,31 @@
 #
 # process:
 #
-#   step 1 - extract MXE coordinages with IJC and SJC
+#   step 1 - extract RI coordinages with IJC and SJC
 #
 #          take the output from rMATS with the coordinates of each
 #          splice defined
-#          extract the MXE coordinates IJC and SJC numbers
+#          extract the RI coordinates IJC and SJC numbers
 #          col 1 - ID -- DO NOT NEED/USE
 #          col 2 - GeneID
 #          col 3 - geneSymbol
 #          col 4 - chr
 #          col 5 - strand
-#          col 6 - 1stExonStart_0base
-#          col 7 - 1stExonEnd
-#          col 8 - 2ndExonStart_0base
-#          col 9 - 2ndExonEnd
-#          col 10 - upstreamES
-#          col 11 - upstreamEE
-#          col 12 - downstreamES
-#          col 13 - downstreamEE
-#          col 14 - ID - DO NOT NEED/USE
-#          col 15 - IJC_SAMPLE_1
-#          col 16 - SJC_SAMPLE_2
+#          col 6 - riexonStart_0base
+#          col 7 - riexonEnd
+#          col 8 - upstreamES
+#          col 9 - upstreamEE
+#          col 10 - downstreamES
+#          col 11 - downstreamEE
+#          col 12 - ID - DO NOT NEED/USE
+#          col 13 - IJC_SAMPLE_1
+#          col 14 - SJC_SAMPLE_2
 #
 #          remove the header
 #
-#   step 2 - cat the MXE files with coordinates and counts together (create a union)
+#   step 2 - cat the RI files with coordinates and counts together (create a union)
 #         
-#   step 3 - unique sort master union file (all.MXE.txt)
+#   step 3 - unique sort master union file (all.RI.txt)
 #
 #   step 4 - cut the last two columns from sorted unique union file
 #
@@ -53,58 +51,58 @@
 #          - norm IJC file will be ID IJC
 #          - norm SJC file will be ID SJC
 #
-#   step 9 - create MXE.coordinates.matrix.txt
-#                   MXE.IJC.w.coordinates.matrix.txt
-#                   MXE.SJC.w.coordinates.matrix.txt
+#   step 9 - create RI.coordinates.matrix.txt
+#                   RI.IJC.w.coordinates.matrix.txt
+#                   RI.SJC.w.coordinates.matrix.txt
 #
 #            join all the files together by ID
 #            as each file is joined add to the header the name.
 #            finish with adding the header to the final matrix
-#            all.MXE.IJC.txt
-#            all.MXE.SJC.txt
+#            all.RI.IJC.txt
+#            all.RI.SJC.txt
 #
-#   step 10 - create the MXE.coordinates.bed file for display
+#   step 10 - create the RI.coordinates.bed file for display
 #            in a genome browser, such as the UCSC genome browser
 #            
 #
-# output:  the coordinates and gene identifiers, strand for MXE
+# output:  the coordinates and gene identifiers, strand for RI
 #---------------------------------------------------------------------
 
 cd $1
-allMXE="*.MXE.MATS.JC.txt"
-MXEend=".MXE.txt"
+allRI="*.RI.MATS.JC.txt"
+RIend=".RI.txt"
 tmp="tmp.txt"
 PWD=$(pwd)
 echo "Current Working Directory is = " $PWD
-echo "allMXE                        = " $allMXE
+echo "allRI                        = " $allRI
 
 #
-#   step 1 - extract coordinates from the MXE file
+#   step 1 - extract coordinates from the RI file
 #
-for file in $allMXE; do
-    name="${file%-*.MXE.MATS.JC.txt}"
-    name_mxe=$name$MXEend
+for file in $allRI; do
+    name="${file%-*.RI.MATS.JC.txt}"
+    name_ri=$name$RIend
     
     echo "file                = " $file
     echo "name                = " $name
-    echo "name_mxe             = " $name_mxe
+    echo "name_ri             = " $name_ri
     
-    cut -f 2-13,15-16 $file > $name_mxe
+    cut -f 2-11,13-14 $file > $name_ri
 
     # remove the header
-    tail -n +2 $name_mxe > $tmp && mv $tmp $name_mxe
+    tail -n +2 $name_ri > $tmp && mv $tmp $name_ri
 done
 
 #
 #   step 2 - create the master union file by cat'ing these files together
 #
-allMXEend="*.MXE.txt"
-allMXE="MXE.all.txt"
+allRIend="*.RI.txt"
+allRI="RI.all.txt"
 
-cat $allMXEend > $allMXE
+cat $allRIend > $allRI
 
 #
-#   step 3 - unique sort master union file (all.MXE.txt)
+#   step 3 - unique sort master union file (all.RI.txt)
 #
 # sort unique
 #   our column structure has changed
@@ -112,29 +110,27 @@ cat $allMXEend > $allMXE
 #          col 2 - geneSymbol
 #          col 3 - chr
 #          col 4 - strand
-#          col 5 - 1stexonStart_0base
-#          col 6 - 1stexonEnd
-#          col 7 - 2ndexonStart_0base
-#          col 8 - 2ndexonEnd
-#          col 9 - upstreamES
-#          col 10 - upstreamEE
-#          col 11 - downstreamES
-#          col 12 - downstreamEE
-#          col 13 - IJC_SAMPLE_1
-#          col 14 - SJC_SAMPLE_2
+#          col 5 - riexonStart_0base
+#          col 6 - riexonEnd
+#          col 7 - upstreamES
+#          col 8 - upstreamEE
+#          col 9 - downstreamES
+#          col 10 - downstreamEE
+#          col 11 - IJC_SAMPLE_1
+#          col 12 - SJC_SAMPLE_2
 #
 
-allSorted="all.MXE.sorted.txt"
-sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 -k11,11 -k12,12 $allMXE > $allSorted
+allSorted="all.RI.sorted.txt"
+sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 $allRI > $allSorted
 
 
 #
 #   step 4 - cut the last two columns from sorted unique union file
 #
 # cut the last two columns - because they do not represent the sample specific data
-allCut="all.MXE.sorted.cut.txt"
+allCut="all.RI.sorted.cut.txt"
 
-cut -f 1-12 $allSorted > $allCut
+cut -f 1-10 $allSorted > $allCut
 
 #
 #   step 5 - add an ID
@@ -147,51 +143,49 @@ cut -f 1-12 $allSorted > $allCut
 #          col 3 - geneSymbol
 #          col 4 - chr
 #          col 5 - strand
-#          col 6 - 1stexonStart_0base
-#          col 7 - 1stexonEnd
-#          col 8 - 2ndexonStart_0base
-#          col 9 - 2ndexonEnd
-#          col 10 - upstreamES
-#          col 11 - upstreamEE
-#          col 12 - downstreamES
-#          col 13 - downstreamEE
+#          col 6 - riexonStart_0base
+#          col 7 - riexonEnd
+#          col 8 - upstreamES
+#          col 9 - upstreamEE
+#          col 10 - downstreamES
+#          col 11 - downstreamEE
 
-mxeCoordinatesFile="MXE.coordinates.matrix.txt"
-nl $allCut > $mxeCoordinatesFile
+riCoordinatesFile="RI.coordinates.matrix.txt"
+nl $allCut > $riCoordinatesFile
 
 #
 # step 6 - sort the individual files
 #
 # sort the individual files (here we keep the sample count)
-sortedMXEend=".sorted.MXE.txt"
+sortedRIend=".sorted.RI.txt"
 
-for file in $allMXEend; do
-    name="${file%.MXE.txt}"
-    name_sorted_mxe=$name$sortedMXEend
+for file in $allRIend; do
+    name="${file%.RI.txt}"
+    name_sorted_ri=$name$sortedRIend
 
     echo "file                = " $file
     echo "name                = " $name
-    echo "name_sorted_mxe     = " $name_sorted_mxe
+    echo "name_sorted_ri      = " $name_sorted_ri
 
-    sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 -k11,11 -k12,12 $file > $name_sorted_mxe
+    sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 $file > $name_sorted_ri
 
 done
 
 #
 # step 7 - normalize the individual files
 #
-allSortedMXE="*.sorted.MXE.txt"
-normMXEend=".sorted.norm.MXE.txt"
+allSortedRI="*.sorted.RI.txt"
+normRIend=".sorted.norm.RI.txt"
 
-for file in $allSortedMXE; do
-    name="${file%.sorted.MXE.txt}"
-    name_norm_mxe=$name$normMXEend
+for file in $allSortedRI; do
+    name="${file%.sorted.RI.txt}"
+    name_norm_ri=$name$normRIend
     
     echo "file                = " $file
     echo "name                = " $name
-    echo "name_norm_mxe       = " $name_norm_mxe
+    echo "name_norm_ri        = " $name_norm_ri
 
-    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_mxe.awk" $file $mxeCoordinatesFile > $name$normMXEend
+    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_ri.awk" $file $riCoordinatesFile > $name$normRIend
 
 done
 
@@ -200,12 +194,12 @@ done
 #          - norm IJC file will be ID IJC
 #          - norm SJC file will be ID SJC
 #
-allNormMXE="*.sorted.norm.MXE.txt"
+allNormRI="*.sorted.norm.RI.txt"
 ijc=".IJC.txt"
 sjc=".SJC.txt"
 
-for file in $allNormMXE; do
-    name="${file%.sorted.norm.MXE.txt}"
+for file in $allNormRI; do
+    name="${file%.sorted.norm.RI.txt}"
     name_ijc=$name$ijc
     name_sjc=$name$sjc
 
@@ -214,8 +208,8 @@ for file in $allNormMXE; do
     echo "name_ijc            = " $name_ijc
     echo "name_sjc            = " $name_sjc
 
-    cut -f 1,14 $file > $name_ijc
-    cut -f 1,15 $file > $name_sjc
+    cut -f 1,12 $file > $name_ijc
+    cut -f 1,13 $file > $name_sjc
 
 done
 
@@ -224,19 +218,19 @@ done
 #            join all the files together by ID
 #            as each file is joined add to the header the name.
 #            finish with adding the header to the final matrix
-#            all.MXE.IJC.txt
-#            all.MXE.SJC.txt
+#            all.RI.IJC.txt
+#            all.RI.SJC.txt
 #
-mxeCoordinatesFile="MXE.coordinates.matrix.txt"
+riCoordinatesFile="RI.coordinates.matrix.txt"
 
-IJC_matrix="MXE.IJC.matrix.txt"
-IJC_matrix_csv="MXE.IJC.matrix.csv"
-IJC_w_coordinates_matrix="MXE.IJC.w.coordinates.matrix.txt"
-IJC_w_coordinates_matrix_csv="MXE.IJC.w.coordinates.matrix.csv"
-SJC_matrix="MXE.SJC.matrix.txt"
-SJC_matrix_csv="MXE.SJC.matrix.csv"
-SJC_w_coordinates_matrix="MXE.SJC.w.coordinates.matrix.txt"
-SJC_w_coordinates_matrix_csv="MXE.SJC.w.coordinates.matrix.csv"
+IJC_matrix="RI.IJC.matrix.txt"
+IJC_matrix_csv="RI.IJC.matrix.csv"
+IJC_w_coordinates_matrix="RI.IJC.w.coordinates.matrix.txt"
+IJC_w_coordinates_matrix_csv="RI.IJC.w.coordinates.matrix.csv"
+SJC_matrix="RI.SJC.matrix.txt"
+SJC_matrix_csv="RI.SJC.matrix.csv"
+SJC_w_coordinates_matrix="RI.SJC.w.coordinates.matrix.txt"
+SJC_w_coordinates_matrix_csv="RI.SJC.w.coordinates.matrix.csv"
 allIJC="*.IJC.txt"
 allSJC="*.SJC.txt"
 IJCend=".IJC.txt"
@@ -254,21 +248,21 @@ tmp_coordinates_SJC="tmp_coord_SJC.txt"
 #
 # headers
 #
-header_file="MXE.header.txt"
-coordinates_header_file="MXE.coordinates.header.txt"
+header_file="RI.header.txt"
+coordinates_header_file="RI.coordinates.header.txt"
 
 header="ID"
-coordinates_header="ID	GeneID	geneSymbol	chr	strand	1stStart_0base	1stexonEnd	2ndExonStart_0base	2ndExonEnd	upstreamES	upstreamEE	downstreamES	downstreamEE"
+coordinates_header="ID	GeneID	geneSymbol	chr	strand	riexonStart_0base	riexonEnd	upstreamES	upstreamEE	downstreamES	downstreamEE"
 tab="	"
 
 #
 # Populate the IJC and SJC matrices with the ID from the coordinate file
 #
-cut -f 1 $mxeCoordinatesFile > $IJC_matrix
-cut -f 1 $mxeCoordinatesFile > $SJC_matrix
+cut -f 1 $riCoordinatesFile > $IJC_matrix
+cut -f 1 $riCoordinatesFile > $SJC_matrix
 
-cp $mxeCoordinatesFile $IJC_w_coordinates_matrix
-cp $mxeCoordinatesFile $SJC_w_coordinates_matrix
+cp $riCoordinatesFile $IJC_w_coordinates_matrix
+cp $riCoordinatesFile $SJC_w_coordinates_matrix
 
 
 for file in $allIJC; do
@@ -293,6 +287,7 @@ for file in $allIJC; do
     
     cp $tmp_IJC $IJC_matrix
     cp $tmp_SJC $SJC_matrix
+
     cp $tmp_coordinates_IJC $IJC_w_coordinates_matrix
     cp $tmp_coordinates_SJC $SJC_w_coordinates_matrix
     
@@ -334,9 +329,9 @@ sed  's/ /,/g' < $SJC_matrix > $SJC_matrix_csv
 sed 's/ /,/g' < $IJC_w_coordinates_matrix > $IJC_w_coordinates_matrix_csv
 sed 's/ /,/g' < $SJC_w_coordinates_matrix > $SJC_w_coordinates_matrix_csv
 #
-#   step 10 - create the MXE.coordinates.bed file for display
+#   step 10 - create the RI.coordinates.bed file for display
 #            in a genome browser, such as the UCSC genome browser
 #            
 
-echo "track name=rMATS_MXE description=\"rMATS MXE Events DS-AML\"" > MXE.coordinates.bed
-awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_mxe.awk MXE.coordinates.matrix.txt >> MXE.coordinates.bed
+echo "track name=rMATS_RI description=\"rMATS RI Events DS-AML\"" > RI.coordinates.bed
+awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_ri.awk RI.coordinates.matrix.txt >> RI.coordinates.bed

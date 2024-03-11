@@ -10,18 +10,15 @@
 #          col 2 - geneSymbol
 #          col 3 - chr
 #          col 4 - strand
-#          col 5 - 1stexonStart_0base
-#          col 6 - 1stexonEnd
-#          col 7 - 2ndexonStart_0base
-#          col 8 - 2ndexonEnd
-#          col 9 - upstreamES
-#          col 10 - upstreamEE
-#          col 11 - downstreamES
-#          col 12 - downstreamEE
-#          col 13 - IJC_SAMPLE_1
-#          col 14 - SJC_SAMPLE_1
+#          col 5 - riexonStart_0base
+#          col 6 - riexonEnd
+#          col 7 - upstreamES
+#          col 8 - upstreamEE
+#          col 9 - downstreamES
+#          col 10 - downstreamEE
+#          col 11 - IJC_SAMPLE_1
+#          col 12 - SJC_SAMPLE_1
 #
-
 # A is the union file and is as follows
 #
 #          col 1 - ID
@@ -29,14 +26,12 @@
 #          col 3 - geneSymbol
 #          col 4 - chr
 #          col 5 - strand
-#          col 6 - 1stexonStart_0base
-#          col 7 - 1stexonEnd
-#          col 8 - 2ndexonStart_0base
-#          col 9 - 2ndexonEnd
-#          col 10 - upstreamES
-#          col 11 - upstreamEE
-#          col 12 - downstreamES
-#          col 13 - downstreamEE
+#          col 6 - riexonStart_0base
+#          col 7 - riexonEnd
+#          col 8 - upstreamES
+#          col 9 - upstreamEE
+#          col 10 - downstreamES
+#          col 11 - downstreamEE
 #
 #
 # The match will print out the content of A, the union file, and the Counts from sample B, the individual file of IJC and SJC
@@ -46,19 +41,19 @@
 NR == FNR {
   #
   # The key is made up of the columns that uniquely define the SE
-  # chr strand 1stexonStart_0base 1stexonEnd 2ndexonStart_0base 2ndexonEnd upstreamES upstreamEE downstreamES downstreamEE
-  # col col    col                col        col                col        col        col        col          col
-  #  3   4      5                 6          7                  8          9          10         11           12
+  # chr strand riexonStart_0base riexonEnd upstreamES upstreamEE downstreamES downstreamEE
+  # col col    col                col      col        col        col          col
+  #  3   4      5                  6        7          8          9            10
   #
   # these will become our key
-  key = $3 OFS $4 OFS $5 OFS $6 OFS $7 OFS $8 OFS $9 OFS $10 OFS $11 OFS $12
+  key = $3 OFS $4 OFS $5 OFS $6 OFS $7 OFS $8 OFS $9 OFS $10
   #
   # our value is defined as the IJC and SJC which are
   # IJC_SAMPLE_1 SJC_SAMPLE_1
   #  col         col
-  #   13          14
+  #   11          12
   #
-  value = $13"\t"$14
+  value = $11"\t"$12
   matchArray[key] = value
   next
 }
@@ -68,7 +63,7 @@ NR == FNR {
 {
     OFS = "\t"
 
-    key = $4 OFS $5 OFS $6 OFS $7 OFS $8 OFS $9 OFS $10 OFS $11 OFS $12 OFS $13
+    key = $4 OFS $5 OFS $6 OFS $7 OFS $8 OFS $9 OFS $10 OFS $11
 
     if (key in matchArray) {
 	print $0"\t"matchArray[key]
