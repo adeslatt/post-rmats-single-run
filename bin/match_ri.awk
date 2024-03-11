@@ -19,6 +19,7 @@
 #          col 11 - IJC_SAMPLE_1
 #          col 12 - SJC_SAMPLE_1
 #
+
 # A is the union file and is as follows
 #
 #          col 1 - ID
@@ -26,8 +27,8 @@
 #          col 3 - geneSymbol
 #          col 4 - chr
 #          col 5 - strand
-#          col 6 - riexonStart_0base
-#          col 7 - riexonEnd
+#          col 6 - exonStart_0base
+#          col 7 - exonEnd
 #          col 8 - upstreamES
 #          col 9 - upstreamEE
 #          col 10 - downstreamES
@@ -40,10 +41,10 @@
 #
 NR == FNR {
   #
-  # The key is made up of the columns that uniquely define the SE
-  # chr strand riexonStart_0base riexonEnd upstreamES upstreamEE downstreamES downstreamEE
-  # col col    col                col      col        col        col          col
-  #  3   4      5                  6        7          8          9            10
+  # The key is made up of the columns that uniquely define the RI
+  # chr strand exonStart_0base exonEnd upstreamES upstreamEE downstreamES downstreamEE
+  # col col    col             col     col        col        col          col
+  #  3   4      5               6       7          8          9           10
   #
   # these will become our key
   key = $3 OFS $4 OFS $5 OFS $6 OFS $7 OFS $8 OFS $9 OFS $10

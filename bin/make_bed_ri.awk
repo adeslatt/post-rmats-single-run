@@ -37,6 +37,7 @@
 #    col 5  becomes col 6 - the strand
 #    col 8  becomes col 7 - repeat of col 2
 #    col 11 becomes col 8 - repeat of col 3
+#    0 black color  col 9
 #    3 exon count   col 10
 #    some math (col 9 - col 8),(col 7 - col 6), (col 11 - col 10) - size of the exons upstream, exon, downstream
 #    come more math (col 6 - col 6),(col 8 - col 6),(col 10 - col 6) - the relative start positions of the exons
@@ -48,8 +49,8 @@
 #    The description also similiarly - default will be Gene Name and splicing type.
 #
 #    Example is below: (generated with help from chatGPT-3.5
-#   ID	GeneID	geneSymbol	chr	strand	riExonStart_0base	riExonEnd	upstreamES	upstreamEE	downstreamES	downstreamEE
-#   0	"ENSG00000012817.16"	"KDM5D"	chrY	-	19706440	19706863	19706440	19706640	19706793	19706863
+#      track name=my_coding_mRNA description="My coding mRNA with multiple exons"
+#      chr6    36596760    36598983    MYGENE    0    +    36596760    36598983    0    3    208,98,135    0,1668,2088
 #
 #    col 1 - the chromsome id
 #    col 2 - is the "thickStart" which is the beginning (this is the upstreamStart coordinate of the upstream exon) of the piece of mRNA we are exploring
@@ -70,7 +71,7 @@
 {
 
     OFS = "\t"
-        
+    
     # trippy for me is that the exons are now rearranged
     # exon2 is the exon of interest
     # exon1 is the upstream exon
