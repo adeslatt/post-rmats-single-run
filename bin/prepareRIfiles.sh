@@ -86,7 +86,9 @@ for file in $allRI; do
     echo "file                = " $file
     echo "name                = " $name
     echo "name_ri             = " $name_ri
-    
+
+    # col 1,12 are the ids which we won't use
+    # col 13,14 are the IJC and SJC which we will use
     cut -f 2-11,13-14 $file > $name_ri
 
     # remove the header
@@ -121,6 +123,16 @@ cat $allRIend > $allRI
 #
 
 allSorted="all.RI.sorted.txt"
+
+# sort starting with col 3 - chromosome
+#                    col 4 - strand
+#                    col 5 - riexonStart_0base
+#                    col 6 - riexonEnd
+#                    col 7 - upstreamES
+#                    col 8 - upstreamEE
+#                    col 9 - downstreamES
+#                    col 10 - downstreamEE
+#
 sort -u -k3,3 -k4,4 -k5,5 -k6,6 -k7,7 -k8,8 -k9,9 -k10,10 $allRI > $allSorted
 
 
@@ -151,6 +163,8 @@ cut -f 1-10 $allSorted > $allCut
 #          col 11 - downstreamEE
 
 riCoordinatesFile="RI.coordinates.matrix.txt"
+
+# the function nl will add an id to each of the sorted lines - our new master union file
 nl $allCut > $riCoordinatesFile
 
 #
@@ -195,8 +209,8 @@ done
 #          - norm SJC file will be ID SJC
 #
 allNormRI="*.sorted.norm.RI.txt"
-ijc=".IJC.txt"
-sjc=".SJC.txt"
+ijc=".RI.IJC.txt"
+sjc=".RI.SJC.txt"
 
 for file in $allNormRI; do
     name="${file%.sorted.norm.RI.txt}"
@@ -231,10 +245,10 @@ SJC_matrix="RI.SJC.matrix.txt"
 SJC_matrix_csv="RI.SJC.matrix.csv"
 SJC_w_coordinates_matrix="RI.SJC.w.coordinates.matrix.txt"
 SJC_w_coordinates_matrix_csv="RI.SJC.w.coordinates.matrix.csv"
-allIJC="*.IJC.txt"
-allSJC="*.SJC.txt"
-IJCend=".IJC.txt"
-SJCend=".SJC.txt"
+allIJC="*.RI.IJC.txt"
+allSJC="*.RI.SJC.txt"
+IJCend=".RI.IJC.txt"
+SJCend=".RI.SJC.txt"
 
 #
 # need tmp files for temporality
@@ -266,7 +280,7 @@ cp $riCoordinatesFile $SJC_w_coordinates_matrix
 
 
 for file in $allIJC; do
-    name="${file%.IJC.txt}"
+    name="${file%.RI.IJC.txt}"
     header=$header$tab$name
     coordinates_header=$coordinates_header$tab$name
 
