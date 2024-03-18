@@ -58,8 +58,6 @@ for file in $allSEoriginalFiles; do
     docker run -v $PWD:$PWD -w $PWD -it gsheynkmanlab/cpat:addr cpat.py -x $human_hexamer -d $human_logitmodel -x Human_Hexamer.tsv -d Human_logitModel.RData.gz -g $fasta_filename --min-orf=50 --top-orf=50 -o $orf_filename 1> $cpat_output_filename 2> $cpat_error_filename
     ../../gotranseq/gotranseq --sequence $orf_seqs_filename -o $orf_seqs_aa_filename -f 1
 
-    awk '/^>/ {printf("%s%s\n",(N>0?"\n":""),$0);N++;next;} {printf("%s",$0);} END {printf("\n");}' "$file" > $orf_linear_aa_filename
-
 done
 
 for file in $allRIoriginalFiles; do
@@ -97,8 +95,6 @@ for file in $allRIoriginalFiles; do
     docker run -v $PWD:$PWD -w $PWD -it gsheynkmanlab/cpat:addr cpat.py -x $human_hexamer -d $human_logitmodel -x Human_Hexamer.tsv -d Human_logitModel.RData.gz -g $fasta_filename --min-orf=50 --top-orf=50 -o $orf_filename 1> $cpat_output_filename 2> $cpat_error_filename
     
     ../../gotranseq/gotranseq --sequence $orf_seqs_filename -o $orf_seqs_aa_filename -f 1
-
-    awk '/^>/ {printf("%s%s\n",(N>0?"\n":""),$0);N++;next;} {printf("%s",$0);} END {printf("\n");}' "$file" > $orf_linear_aa_filename
 
 done
 
@@ -138,8 +134,6 @@ for file in $allMXEoriginalFiles; do
     bedtools getfasta -rna -fi ../../singleCellLongReadAnalysis/data/BC_ranked_isoforms/GRCh38.primary_assembly.genome.fa -bed $bed_filename > $fasta_filename
     docker run -v $PWD:$PWD -w $PWD -it gsheynkmanlab/cpat:addr cpat.py -x $human_hexamer -d $human_logitmodel -x Human_Hexamer.tsv -d Human_logitModel.RData.gz -g $fasta_filename --min-orf=50 --top-orf=50 -o $orf_filename 1> $cpat_output_filename 2> $cpat_error_filename
     ../../gotranseq/gotranseq --sequence $orf_seqs_filename -o $orf_seqs_aa_filename -f 1
-
-    awk '/^>/ {printf("%s%s\n",(N>0?"\n":""),$0);N++;next;} {printf("%s",$0);} END {printf("\n");}' "$file" > $orf_linear_aa_filename
 
 done
 
