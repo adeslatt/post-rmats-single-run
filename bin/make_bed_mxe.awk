@@ -70,16 +70,25 @@
 #
 #  OUTPUT: MXE.coordinates.matrix.bed
 #
-{
+BEGIN {
+
+    # make sure the default delimiter for output printing is a tab
     OFS = "\t"
-    
+}
+
+# Assuming the header line is being read but not printed here
+NR == 1 {
+    next;  # Skip processing and move to the next line
+}
+
+{
     # trippy for me is that the exons are now rearranged
     # exon2  is one of the two  exons of interest
     # exon3  is the second of two exons of interest
     # exon1 is the upstream exon
     # exon4 is the downstream exon
     exon1 = $11 - $10 #upstream
-    exon2 = $7 - $6   #1st exon in MXE 
+    exon2 = $7 - $6   #1st exon in MXE
     exon3 = $9 - $8   #2nd exon in MXE
     exon4 = $13 - $12 #downstream
 
@@ -91,6 +100,8 @@
 
     # so the gene symbol that gets printed out does not have quotes on it - lets strip them
     gsub(/"/, "", $3)
-    
+
+    # Print the desired output
     print $4 OFS $10 OFS $13 OFS $3"_"$1 OFS 0 OFS $5 OFS $10 OFS $13 OFS 0 OFS 4 OFS exon1","exon2","exon3","exon4 OFS start1","start2","start3","start4
+
 }

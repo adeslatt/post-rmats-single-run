@@ -68,10 +68,19 @@
 #
 #  OUTPUT: SE.coordinates.matrix.bed
 #
-{
 
+BEGIN {
+
+    # make sure the default delimiter for output printing is a tab
     OFS = "\t"
-    
+}
+
+# Assuming the header line is being read but not printed here
+NR == 1 {
+    next;  # Skip processing and move to the next line
+}
+
+{
     # trippy for me is that the exons are now rearranged
     # exon2 is the exon of interest
     # exon1 is the upstream exon
@@ -87,6 +96,7 @@
 
     # so the gene symbol that gets printed out does not have quotes on it - lets strip them
     gsub(/"/, "", $3)
-    
+
     print $4 OFS $8 OFS $11 OFS $3"_"$1 OFS 0 OFS $5 OFS $8 OFS $11 OFS 0 OFS 3 OFS exon1","exon2","exon3 OFS start1","start2","start3
+
 }

@@ -44,6 +44,7 @@
 # this ensures all the individual samples files have the same structure and IDs for making a single matrix
 #
 NR == FNR {
+    OFS = "\t"
   #
   # The key is made up of the columns that uniquely define the SE
   # chr strand 1stexonStart_0base 1stexonEnd 2ndexonStart_0base 2ndexonEnd upstreamES upstreamEE downstreamES downstreamEE

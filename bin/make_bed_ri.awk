@@ -62,31 +62,39 @@
 #    col 7 - a repeat of col 2
 #    col 8 - a repeat of col 3
 #    col 9 - color of the display - we set it to black - 0
-#    col 10 - the number of exons, for the RI event this is always 3
-#    col 11 - a comma separated list of the lengths of the exons in the following order upstream exon, exon, downstream exon
-#    col 12 - a comma separated list of the relative start positions of the exons calculated
+#    col 10 - the number of exons, for the RI event this is always 1
+#    col 11 - length of the retained intron which is the downstreamES - upstreamEE
+#    col 12 - start position of the retained intron
 #
 #  OUTPUT: RI.coordinates.matrix.bed
 #
-{
+BEGIN {
 
+    # make sure the default delimiter for output printing is a tab
     OFS = "\t"
+}
+
+# Assuming the header line is being read but not printed here
+NR == 1 {
+    next;  # Skip processing and move to the next line
+}
+
+{
     
-    # trippy for me is that the exons are now rearranged
-    # exon2 is the exon of interest
-    # exon1 is the upstream exon
-    # exon3 is the downstream exon
-    exon1 = $9 - $8
-    exon2 = $7 - $6
-    exon3 = $11 - $10
+    # In the case of RI, the retained intron is measured by the downstreamES-upstreamEE
+    # retained intron is downstreamES - upstreamEE
+    upstreamexon   = $9 - $8
+    retainedintron = $7 - $6
+    downstreamexon = $11 - $10
 
     # so the transcript start is the upstream start col
-    start1 = $8 - $8
-    start2 = $6 - $8
-    start3 = $10 - $8
+    upstreamstart = $8 - $8
+    ristart       = $6 - $8
+    downstreamstart = $10 - $8
+    
 
     # so the gene symbol that gets printed out does not have quotes on it - lets strip them
     gsub(/"/, "", $3)
-    
-    print $4 OFS $8 OFS $11 OFS $3"_"$1 OFS 0 OFS $5 OFS $8 OFS $11 OFS 0 OFS 3 OFS exon1","exon2","exon3 OFS start1","start2","start3
+
+    print $4 OFS $8 OFS $11 OFS $3"_"$1 OFS 0 OFS $5 OFS $8 OFS $11 OFS 0 OFS 3 OFS upstreamexon","retainedintron","downstreamexon OFS upstreamstart","ristart","downstreamstart
 }
