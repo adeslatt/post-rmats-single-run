@@ -143,7 +143,7 @@ cd protein_domain_matrices
 ```bash
 python ../bin/make_protein_counts_matrix.py ../protein_domain_counts/MYC_SE/ MYC_SE_protein_domain_counts.csv > debug.txt
 
-```
+```bash
 Protein,Domain_Name,AA_position,Domain_Sequence,PAUVKY-03A-01R.SE.coordinates_linear_aa.fa_results.txt,PAUVKY-40A-01R.SE.coordinates_linear_aa.fa_results.txt,PAWHSD-03A-01R.SE.coordinates_linear_aa.fa_results.txt,PAWHSD-40A-01R.SE.coordinates_linear_aa.fa_results.txt,PAWSNZ-03A-01R.SE.coordinates_linear_aa.fa_results.txt,PAWSNZ-40A-01R.SE.coordinates_linear_aa.fa_results.txt,_1_PAUTLA-03A-01R.SE.coordinates_linear_aa.fa_results.txt,_1_PAUTLA-40A-01R.SE.coordinates_linear_aa.fa_results.txt,_1_PAVUDU-03A-01R.SE.coordinates_linear_aa.fa_results.txt,_1_PAVUDU-40A-01R.SE.coordinates_linear_aa.fa_results.txt
 MYC,9aaTAD,115-123,EMVTELLGG,0,0,2,0,1,0,1,0,2,0
 MYC,Polar_residues,219-249,SPKSCASQDSSAFSPSSDSLLSSTESSPQGS,0,0,2,0,0,0,0,0,2,0
@@ -151,6 +151,7 @@ MYC,Disordered,219-310,SPKSCASQDSSAFSPSSDSLLSSTESSPQGSPEPLVLHEETPPTTSSDSEEEQEDEE
 MYC,bHLH,369-421,VKRRTHNVLERQRRNELKRSFFALRDQIPELENNEKAPKVVILKKATAYILSV,0,0,0,0,0,0,0,0,0,0
 MYC,Leucine_zipper,428-449,LISEEDLLRKRREQLKHKLEQL,0,0,0,0,0,0,0,0,0,0
 ```
+
 Now we can analyze.
 
 ## Philosophy
