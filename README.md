@@ -55,6 +55,104 @@ The addition of annotation information also helps to keep the user of this infor
 
 This is very helpful in putting the information together.
 
+## Getting Domain Matrix Counts
+
+Continuing because our goal is to get domain information and sort through functional differences given our different states for our data collection.  
+For this particular study, it is looking for molecular differences between patients who:
+
+* experience TAM and **do not progress** to AML as compared with patients who
+* experience TAM and **do progress** to AML
+
+We now get the **protein domains** that are present in these experimental files.
+
+Using the coordinate files we obtain through a series of steps:
+
+* make bed files (via 'make_se_bed.awk', 'make_ri_bed.awk', 'make_mxe_bed.awk')
+* obtain the sequence data covered by the regions outlined by the measured results (via 'bedtools getfasta')
+* call the protein open reading frames covered by these sequence data (via 'cpat.py')
+* translate these protein ORFs to amino acid sequence (via 'gotranseq')
+
+This is obtained with the execution of `make_individual_files.sh'
+
+Run from the experimental data directory:
+```bash
+../../bin/make_individual_files.sh
+```
+
+Next step to make the search for the exact domain sequence is to linearize these amino acid sequences removing the standard 60 character limitation.
+Also run in the same directory.
+
+```bash
+ ../bin/makingAASingleLine.sh .
+```
+
+Now as a matter of cleanliness and convienence, each of these file types were then put into their own directory - to make the final matrix creation easy.
+
+So within the experiment directory, three subdirectories were made
+```bash
+mkdir SE_linear
+mkdir MXE_linear
+mkdir RI_linear
+```
+And the linear files associated with SE, MXE, and RI moved into their appropriate subdirectories.
+
+## Making protein files
+
+Using [uniprot](https://uniprot.org) we obtain the domain sequences that are part of the Protein.  This way we can arrive at the putative functional differences between those amino acid sequences present in one class of samples versus another.
+
+Manually creating files of interest we create files for our use:
+
+For example, `MYC_human_P01106.txt` looks as follows:
+```bash
+MYC:9aaTAD:115-123:EMVTELLGG
+MYC:Polar_residues:219-249:SPKSCASQDSSAFSPSSDSLLSSTESSPQGS
+MYC:Disordered:219-310:SPKSCASQDSSAFSPSSDSLLSSTESSPQGSPEPLVLHEETPPTTSSDSEEEQEDEEEIDVVSVEKRQAPGKRSESGSPSAGGHSKPPHSPL
+MYC:bHLH:369-421:VKRRTHNVLERQRRNELKRSFFALRDQIPELENNEKAPKVVILKKATAYILSV
+MYC:Leucine_zipper:428-449:LISEEDLLRKRREQLKHKLEQL
+```
+The file is a table separated by ':' (colon).  The fields are in order:
+* Protein name
+* Domain description
+* Amino acid positions
+* Amino acid sequence
+
+## Counting the Domain hits
+
+Now in another directory here named `protein_domain_counts` we create a subdirectory for each of our proteins and splicing types:
+With MYC the following sub directories are made:
+```bash
+mkdir protein_domain_counts/MYC_MXE
+mkdir protein_domain_counts/MYC_SE
+mkdir protein_domain_counts/MYC_RI
+```
+
+We change directory into each of them and count, for example:
+```bash
+cd protein_domain_counts/MYC_SE
+awk -v experiment_dir="/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/paired.TAM.AMLv2/SE_linear/" -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/process_domains.awk "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/protein_aa/MYC_human_P01106.txt"
+```
+
+Now we have each of the experiments and the read counts - but to analyze better a matrix would serve the rule.
+Make a directory and create the appropriately named matrix
+
+```bash
+cd ../..
+mkdir protein_domain_matrices
+cd protein_domain_matrices
+```
+```bash
+python ../bin/make_protein_counts_matrix.py ../protein_domain_counts/MYC_SE/ MYC_SE_protein_domain_counts.csv > debug.txt
+
+```
+Protein,Domain_Name,AA_position,Domain_Sequence,PAUVKY-03A-01R.SE.coordinates_linear_aa.fa_results.txt,PAUVKY-40A-01R.SE.coordinates_linear_aa.fa_results.txt,PAWHSD-03A-01R.SE.coordinates_linear_aa.fa_results.txt,PAWHSD-40A-01R.SE.coordinates_linear_aa.fa_results.txt,PAWSNZ-03A-01R.SE.coordinates_linear_aa.fa_results.txt,PAWSNZ-40A-01R.SE.coordinates_linear_aa.fa_results.txt,_1_PAUTLA-03A-01R.SE.coordinates_linear_aa.fa_results.txt,_1_PAUTLA-40A-01R.SE.coordinates_linear_aa.fa_results.txt,_1_PAVUDU-03A-01R.SE.coordinates_linear_aa.fa_results.txt,_1_PAVUDU-40A-01R.SE.coordinates_linear_aa.fa_results.txt
+MYC,9aaTAD,115-123,EMVTELLGG,0,0,2,0,1,0,1,0,2,0
+MYC,Polar_residues,219-249,SPKSCASQDSSAFSPSSDSLLSSTESSPQGS,0,0,2,0,0,0,0,0,2,0
+MYC,Disordered,219-310,SPKSCASQDSSAFSPSSDSLLSSTESSPQGSPEPLVLHEETPPTTSSDSEEEQEDEEEIDVVSVEKRQAPGKRSESGSPSAGGHSKPPHSPL,0,0,0,0,0,0,0,0,0,0
+MYC,bHLH,369-421,VKRRTHNVLERQRRNELKRSFFALRDQIPELENNEKAPKVVILKKATAYILSV,0,0,0,0,0,0,0,0,0,0
+MYC,Leucine_zipper,428-449,LISEEDLLRKRREQLKHKLEQL,0,0,0,0,0,0,0,0,0,0
+```
+Now we can analyze.
+
 ## Philosophy
 
 My philosophy - is always an elements of style approach.  
