@@ -10,13 +10,13 @@ def process_file(file_path, results):
     print(f"process_file: file_path is {file_path}")
 
     with open(file_path, "r") as file:
-        header = file.readline().strip().split(' ')
+        header = file.readline().strip().split(':')
         # get the last element in the header
         experiment_name = file_path
         
 
         for line in file:
-            data = line.strip().split(' ')
+            data = line.strip().split(',')
             
             # Here, data[:4] is a list slice that extracts the first four elements (from index 0 to 3)
             key = tuple(data[:4]) + (experiment_name,)
@@ -83,8 +83,8 @@ def main(input_directory, output_matrix):
             
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="Create a matrix from space-delimited files in a directory.")
-    parser.add_argument("input_directory", help="Path to the input directory containing space-delimited files.")
+    parser = argparse.ArgumentParser(description="Create a matrix from comma-delimited files in a directory.")
+    parser.add_argument("input_directory", help="Path to the input directory containing comma-delimited files.")
     parser.add_argument("output_matrix", help="Path to the output matrix file.")
     args = parser.parse_args()
 

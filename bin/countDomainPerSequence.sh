@@ -18,7 +18,7 @@
 #
 # Define the relative directory where your experimental files are located
 #experiment_dir="/path/to/experiment_directory"
-experiment_dir=$1
+cd $1
 # Define the relative location file containing protein and domain data
 #  (one pair per line, in the format "ProteinName:DomainSequence")
 #  FUTURE THOUGHTS: Replace this with an API.
@@ -27,23 +27,26 @@ experiment_dir=$1
 #data_file="/path/to/protein_domain_data.txt"
 data_file=$2
 
+alllinearaafa="*_linear_aa.fa"
+
 # Loop through each line in the data file
 first_time=1
-while IFS= read -r line; do
-    # Split the line into protein name and domain sequence using ":" as a delimiter
-    IFS=":" read -r protein_name domain_name aa_position domain_sequence <<< "$line"
+colon=":"
+for file in $alllinearaafa; do
     
-    # Loop through each experiment file in the directory
-    for experiment_file in "$experiment_dir"/*_linear_aa.fa; do
-        # Use grep to search for the domain sequence in the experiment file
-        read_count=$(grep -c "$domain_sequence" "$experiment_file")
-        
+    while IFS= read -r line; do
+	# Split the line into protein name and domain sequence using ":" as a delimiter
+	IFS=":" read -r protein_name domain_name aa_position domain_sequence <<< "$line"
+    
         # Generate the output filename based on the input experiment file
-        output_file="${experiment_file##*/}_results.txt"
+        output_file="${file##*/}_results.txt"
         if (($first_time == 1));  then
-	    echo "Protein Domain_Name AA_position Domain_Sequence $experiment_file" > "$output_file"
-	    first_time=0
+	    echo "Protein:Domain_Name:AA_position:Domain_Sequence:$file" > "$output_file"
+	else
+	    # Use grep to search for the domain sequence in the experiment file
+	    read_count=$(grep -c "$domain_sequence" "$file")
+	    echo "$protein_name$colon$domain_name$colon$aa_position$colon$domain_sequence$colon$read_count" >> $output_file
 	fi
-        echo "$protein_name $domain_name $aa_position $domain_sequence $read_count" >> $output_file
-    done
-done < "$data_file"
+        
+    done < $file
+done 
