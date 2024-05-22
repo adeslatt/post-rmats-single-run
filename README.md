@@ -103,6 +103,13 @@ Using [uniprot](https://uniprot.org) we obtain the domain sequences that are par
 Manually creating files of interest we create files for our use:
 
 For example, `MYC_human_P01106.txt` looks as follows:
+
+There is no header in the `master` protein sequence file with the domains specified.
+
+Protein_name:Domain_Sequence_Name:Amino-acid Range:Amino-acid Sequence
+
+SO the file for Human MYC then is as follows:
+
 ```bash
 MYC:9aaTAD:115-123:EMVTELLGG
 MYC:Polar_residues:219-249:SPKSCASQDSSAFSPSSDSLLSSTESSPQGS
@@ -110,11 +117,9 @@ MYC:Disordered:219-310:SPKSCASQDSSAFSPSSDSLLSSTESSPQGSPEPLVLHEETPPTTSSDSEEEQEDEE
 MYC:bHLH:369-421:VKRRTHNVLERQRRNELKRSFFALRDQIPELENNEKAPKVVILKKATAYILSV
 MYC:Leucine_zipper:428-449:LISEEDLLRKRREQLKHKLEQL
 ```
-The file is a table separated by ':' (colon).  The fields are in order:
-* Protein name
-* Domain description
-* Amino acid positions
-* Amino acid sequence
+
+By default I name the file with the Uniprot Identifier -- just as a convention to help my future self.
+
 
 ## Counting the Domain hits
 
