@@ -19,7 +19,6 @@
 #          col 11 - IJC_SAMPLE_1
 #          col 12 - SJC_SAMPLE_1
 #
-
 # A is the union file and is as follows
 #
 #          col 1 - ID
