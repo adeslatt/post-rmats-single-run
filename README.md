@@ -13,6 +13,72 @@ Output from an rMATS run
 
 ## Process
 
+There are five(5) different alternative splicing events that are classified by rMATS:
+* SE
+* RI
+* MXE
+* A3SS
+* A5SS
+
+The input files and processing files are specific to each of these splicing events and are handled by scripts below individually.
+
+In general, I recommend you make a subdirectory and create symbolic links to your data for each of the separate categories so that they may be analyzed and digested separately.
+
+```bash
+mkdir SE_calculate
+mkdir RI_calculate
+mkdir MXE_calculate
+mkdir A3SS_calculate
+mkdir A5SS_calculate
+```
+
+Then change directory into each of them and make a symbolic link to the files.
+For example, assuming that the subdirectories are within the directory where your rMATS output files are 
+
+Please note that the "." means current directory.   This is required for the prepareXXfiles.sh runs (XX== SE, RI, MXE, A3SS, or A5SS)
+
+For the SE files you would do this:
+```bash
+cd SE_calculate
+ln -s ../*SE.MATS.JC.txt .
+../../bin/prepareSEfiles.sh .
+../../bin/make_individual_files.sh
+```
+
+For the RI files, assuming you were in the SE_calculate subdirectory
+```bash
+cd ../RI_calculate
+ln -s ../*RI.MATS.JC.txt .
+../../bin/prepareRIfiles.sh .
+../../bin/make_individual_files.sh
+```
+
+for MXE files, assuming you were in the RI_calculate subdirectory
+```bash
+cd ../MXE_calculate
+ln -s ../*MXE.MATS.JC.txt .
+../../bin/prepareMXEfiles.sh .
+../../bin/make_individual_files.sh
+```
+
+for A3SS files, assuming you were in the MXE_calculate subdirectory
+```bash
+cd ../A3SS_calculate
+ln -s ../*A3SS.MATS.JC.txt .
+../../bin/prepareA3SSfiles.sh .
+../../bin/make_individual_files.sh
+```
+
+for A5SS files, assuming you were in the A3SS_calculate subdirectory
+```bash
+cd ../A3SS_calculate
+ln -s ../*A3SS.MATS.JC.txt .
+../../bin/prepareA3SSfiles.sh .
+../../bin/make_individual_files.sh
+```
+
+Now we will look at what is produced by each of these programs.
+
 ### Skipped Exon (SE)
 
 The format of the input is as follows:                                                                                                                                                                                                           
