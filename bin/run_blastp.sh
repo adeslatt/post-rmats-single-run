@@ -17,7 +17,7 @@ echo "protein_query is " $protein_query
 
 for file in $alllinearseq; do
 
-    name="${file%%_linear_aa.fa}"
+    name="${file%%.SE.coordinates_linear_aa.fa}"
     blastdbname=$name$blastdb
     blastoutname=$name$blastresult
 

@@ -1,12 +1,12 @@
 #
-# make bed a5ss awk
+# make bed a3ss awk
 #
 #  The bed file is constructed in such away that the alternative splicing event
 #  may be displayed in a browser such as the UCSC Genome Browser
 #
 #  The routine follows the elements of style approach, input - process - output precisely as follows:
 #
-#  INPUT - one of the output files that is generated with the prepareA5SSfiles.sh script, A5SS.coordinates.matrix.txt
+#  INPUT - one of the output files that is generated with the prepareA3SSfiles.sh script, A3SS.coordinates.matrix.txt
 #
 #
 #     The format of the input is as follows:
@@ -32,7 +32,7 @@
 #    col 4   becomes col 1 - that is the chromsome from the input becomes the chromsome in the output
 #    col 10  becomes col 2 - that is the flanking exon start becomes the thick start
 #    col 9   becomes col 3 - the short exon end coordinate becomes the thick end
-#    col 1   becomes col 4 - that is the unique identifer for the A5SS event is the name
+#    col 1   becomes col 4 - that is the unique identifer for the A3SS event is the name
 #    0               col 5 - arbitrary score zero
 #    col 5   becomes col 6 - the strand
 #    col 10  becomes col 7 - repeat of col 2
@@ -53,7 +53,7 @@
 #      chr6    36596760    36598983    MYGENE    0    +    36596760    36598983    0    3    208,98,135    0,1668,2088
 #
 #    col 1 - the chromsome id
-#    col 2 - is the "thickStart" which is the beginning (this is the short exon (Start coordinate of the short exon) of the piece A5SS
+#    col 2 - is the "thickStart" which is the beginning (this is the short exon (Start coordinate of the short exon) of the piece A3SS
 #    col 3 - is the "thick end" which is the end of the piece of mRNA we are exploring (the flanking exon start coordinate of the flanking Exon)
 #    col 4 - the name for the piece, in our case we will use the unique identifier generated from the creation of the unified file of all the
 #            samples under study
@@ -62,11 +62,11 @@
 #    col 7 - a repeat of col 2
 #    col 8 - a repeat of col 3
 #    col 9 - color of the display - we set it to black - 0
-#    col 10 - the number of exons, for the A5SS event this is always 3
+#    col 10 - the number of exons, for the A3SS event this is always 3
 #    col 11 - a comma separated list of the lengths of the exons in the following order short exon, long exon, flanking exon
 #    col 12 - a comma separated list of the relative start positions of the exons calculated
 #
-#  OUTPUT: A5SS.coordinates.bed
+#  OUTPUT: A3SS.coordinates.bed
 #
 
 BEGIN {
@@ -81,7 +81,7 @@ NR == 1 {
 }
 
 {
-    # with A5SS - the short exon, refers to the a5ss making the 3 prime exon in a junction smaller, thereby making it a greater distance in fact
+    # with A3SS - the short exon, refers to the a3ss making the 3 prime exon in a junction smaller, thereby making it a greater distance in fact
     #    then the longer 
     shortExon    = $9 - $8
     longExon     = $7 - $6
@@ -96,24 +96,21 @@ NR == 1 {
     # so the transcript start is the flanking exon start col
     # we also have to order the exons on the chromosome appropriately
     # on the positive strand
-    #  with A5SS it is the opposite of A3SS
-    #    short is first, long is second and flanking is third
+    #  flanking is first, long is second and short is third
     if (strand == "+") {
+	flankingExonStart = $10 - $10
+	longExonStart     = $6 - $10
+	shortExonStart    = $8 - $10
+
+	print $4 OFS $10 OFS $9 OFS $3"_"$1 OFS 0 OFS $5 OFS $10 OFS $9 OFS 0 OFS 3 OFS flankingExon","longExon","shortExon OFS flankingExonStart","longExonStart","shortExonStart
+    } else {
+    # on the negative strand
+    #  flanking exon is the highest distance - e.g. the exact opposite since we are going in reverse
+    #  short Exon is first, long is second and flanking is third
 	shortExonStart    = $8 - $8
 	longExonStart     = $6 - $8
 	flankingExonStart = $10 - $8
 
-	print $4 OFS $10 OFS $9 OFS $3"_"$1 OFS 0 OFS $5 OFS $10 OFS $9 OFS 0 OFS 3 OFS shortExon","longExon","flankingExon OFS shortExonStart","longExonStart","flankingExonStart
-    } else {
-    # on the negative strand
-    #  flanking exon is the highest distance - e.g. the exact opposite since we are going in reverse
-    #  opposite from A3SS, with A5SS
-    #  on the negative strand
-    #     flanking Exon is first, long is second and short is third
-	flankingExonStart = $10 - $10
-	longExonStart     = $6 - $10
-        shortExonStart    = $8 - $10
-
-	print $4 OFS $8 OFS $11 OFS $3"_"$1 OFS 0 OFS $5 OFS $8 OFS $11 OFS 0 OFS 3 OFS flankingExon","longExon","shortExon OFS flankingExonStart","longExonStart","shortExonStart
+	print $4 OFS $8 OFS $11 OFS $3"_"$1 OFS 0 OFS $5 OFS $8 OFS $11 OFS 0 OFS 3 OFS shortExon","longExon","flankingExon OFS shortExonStart","longExonStart","flankingExonStart
     }
 }
