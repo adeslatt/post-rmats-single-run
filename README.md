@@ -201,6 +201,8 @@ So within the experiment directory, three subdirectories were made
 mkdir SE_linear
 mkdir MXE_linear
 mkdir RI_linear
+mkdir A3SS_linear
+mkdir A5SS_linear
 ```
 And the linear files associated with SE, MXE, and RI moved into their appropriate subdirectories.
 
@@ -237,6 +239,8 @@ With MYC the following sub directories are made:
 mkdir protein_domain_counts/MYC_MXE
 mkdir protein_domain_counts/MYC_SE
 mkdir protein_domain_counts/MYC_RI
+mkdir protein_domain_counts/MYC_A3SS
+mkdir protein_domain_counts/MYC_A5SS
 ```
 
 We change directory into each of them and count, for example:
@@ -267,25 +271,3 @@ MYC,Leucine_zipper,428-449,LISEEDLLRKRREQLKHKLEQL,0,0,0,0,0,0,0,0,0,0
 ```
 
 Now we can analyze.
-
-## Philosophy
-
-My philosophy - is always an elements of style approach.  
-
-`Input` - `process` - `output`
-
-In the case of preparing the matrices to allow the analysis of alternative splicing with coordinates and counts from multiple samples 
-
-This is done using two awk scripts:
-
-* [`match_se.awk`](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_se.awk)  - this file is used to normalize all the samples put in the matrix so that for each junction their is a uniform ID.  Match uses associated arrays in awk to match the coordinates and if a sample has counts for this junction, they are added, if not, zeros are placed instead creating a non-empty complete matrix - important for analysis.
-
-* [`make_bed_se.awk`](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_bed_se.awk) - this file creates from the `SE.coordinates.matrix.txt` an appropriate bed file `SE.coordinates.bed` that may be uploaded as a custom track on the UCSC Genome Browser.
-
-The [`prepareSEfiles.sh`](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareSEfiles.sh) takes 10 steps to produce the final output.   These steps are documented in the script itself. 
-
-## `TO DO`
-
-* Create similiar matrices for the A3SS, A5SS
-* Turn into a proper Nextflow workflow to run on a platform - Lifebit's Data Science Suite Module (previously CloudOS).
-
