@@ -1,4 +1,4 @@
-#
+v#
 # make bed a3ss awk
 #
 #  The bed file is constructed in such away that the alternative splicing event
@@ -30,13 +30,13 @@
 #
 #   INPUT           OUTPUT
 #    col 4   becomes col 1 - that is the chromsome from the input becomes the chromsome in the output
-#    col 11  becomes col 2 - that is the flanking exon start becomes the thick start
-#    col 8   becomes col 3 - the short exon end coordinate becomes the thick end
+#    col 10  becomes col 2 - that is the flanking exon start becomes the thick start
+#    col 9   becomes col 3 - the short exon end coordinate becomes the thick end
 #    col 1   becomes col 4 - that is the unique identifer for the A3SS event is the name
 #    0               col 5 - arbitrary score zero
 #    col 5   becomes col 6 - the strand
-#    col 11  becomes col 7 - repeat of col 2
-#    col 8   becomes col 8 - repeat of col 3
+#    col 10  becomes col 7 - repeat of col 2
+#    col 9   becomes col 8 - repeat of col 3
 #    0 black color  col 9
 #    3 exon count   col 10
 #    some math (col 9 - col 8),(col 7 - col 6), (col 11 - col 10) - size of the exons short exon, long exon, flanking exon
@@ -88,13 +88,15 @@ NR == 1 {
     flankingExon = $11 - $10
 
     # so the transcript start is the flanking exon start col
-    shortExonStart    = $8 - $11
-    longExonStart     = $6 - $11
-    flankingExonStart = $10 - $11
+    # we also have to order the exons on the chromosome appropriately
+    #  flanking is first, long is second and short is third
+    flankingExonStart = $10 - $10
+    longExonStart     = $6 - $10
+    shortExonStart    = $8 - $10
 
     # so the gene symbol that gets printed out does not have quotes on it - lets strip them
     gsub(/"/, "", $3)
 
-    print $4 OFS $11 OFS $8 OFS $3"_"$1 OFS 0 OFS $5 OFS $11 OFS $8 OFS 0 OFS 3 OFS shortExon","longExon","flankingExon OFS shortExonStart","longExonStart","flankingExonStart
+    print $4 OFS $10 OFS $9 OFS $3"_"$1 OFS 0 OFS $5 OFS $10 OFS $9 OFS 0 OFS 3 OFS flankingExon","longExon","shortExon OFS flankingExonStart","longExonStart","shortExonStart
 
 }
