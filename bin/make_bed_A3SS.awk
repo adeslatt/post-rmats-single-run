@@ -87,16 +87,30 @@ NR == 1 {
     longExon     = $7 - $6
     flankingExon = $11 - $10
 
-    # so the transcript start is the flanking exon start col
-    # we also have to order the exons on the chromosome appropriately
-    #  flanking is first, long is second and short is third
-    flankingExonStart = $10 - $10
-    longExonStart     = $6 - $10
-    shortExonStart    = $8 - $10
+    # strand
+    strand       = $5
 
     # so the gene symbol that gets printed out does not have quotes on it - lets strip them
     gsub(/"/, "", $3)
 
-    print $4 OFS $10 OFS $9 OFS $3"_"$1 OFS 0 OFS $5 OFS $10 OFS $9 OFS 0 OFS 3 OFS flankingExon","longExon","shortExon OFS flankingExonStart","longExonStart","shortExonStart
+    # so the transcript start is the flanking exon start col
+    # we also have to order the exons on the chromosome appropriately
+    # on the positive strand
+    #  flanking is first, long is second and short is third
+    if (strand == "+") {
+	flankingExonStart = $10 - $10
+	longExonStart     = $6 - $10
+	shortExonStart    = $8 - $10
 
+	print $4 OFS $10 OFS $9 OFS $3"_"$1 OFS 0 OFS $5 OFS $10 OFS $9 OFS 0 OFS 3 OFS flankingExon","longExon","shortExon OFS flankingExonStart","longExonStart","shortExonStart
+    } else {
+    # on the negative strand
+    #  flanking exon is the highest distance - e.g. the exact opposite since we are going in reverse
+    #  short Exon is first, long is second and flanking is third
+	shortExonStart    = $8 - $8
+	longExonStart     = $6 - $8
+	flankingExonStart = $10 - $8
+
+	print $4 OFS $8 OFS $11 OFS $3"_"$1 OFS 0 OFS $5 OFS $8 OFS $11 OFS 0 OFS 3 OFS shortExon","longExon","flankingExon OFS shortExonStart","longExonStart","flankingExonStart
+    }
 }
