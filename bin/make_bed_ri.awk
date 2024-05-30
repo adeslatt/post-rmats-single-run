@@ -66,7 +66,7 @@
 #    col 11 - length of the retained intron which is the downstreamES - upstreamEE
 #    col 12 - start position of the retained intron
 #
-#  OUTPUT: RI.coordinates.matrix.bed
+#  OUTPUT: RI.coordinates.bed
 #
 BEGIN {
 
