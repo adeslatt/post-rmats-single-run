@@ -15,9 +15,20 @@ Output from an rMATS run
 
 ### Skipped Exon (SE)
 
-From rMATS documentation, we learn the SE event: exonStart_0base exonEnd upstreamES upstreamEE downstreamES downstreamEE
-The inclusion form (IJC) includes the target exon (exonStart_0base, exonEnd)
-
+The format of the input is as follows:                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                      
+     col 1 - ID - unique identifier for the skipped exon event                                                                                                                                                                                        
+     col 2 - GeneID - the ENSG identifier                                                                                                                                                                                                             
+     col 3 - geneSymbol - the text word for the gene                                                                                                                                                                                                  
+     col 4 - chromsome                                                                                                                                                                                                                                
+     col 5 - strand                                                                                                                                                                                                                                   
+     col 6 - exonStart_0base - the start base coordinate (zero based) for the exon of interest                                                                                                                                                        
+     col 7 - exonEnd - the end base coordinate for the exon of interest                                                                                                                                                                               
+     col 8 - upstreamES - the start base coordinate (zero based) for the upstream exon                                                                                                                                                                
+     col 9 - upstreamEE - the end coordinate for the upstream exon                                                                                                                                                                                    
+     col 10 - downstreamES - the start base coordinate (zero based) for the downstream exon                                                                                                                                                           
+     col 11 - downstreamEE - the end coordiante for the downstream exon                                                                                                                                                                               
+                                                                                                                                                                                                                                                      
 The script [prepareSEfiles.sh](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareSEfiles.sh) takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
 * [match_se.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_se.awk)
 * [make_bed_se.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_bed_se.awk)
@@ -32,7 +43,22 @@ Also yielding the bed file of all the events that can be loaded as a custom trac
 
 ### Mutually Excluded Exon (MXE)
 
-From the rMATS documentation we learn that the MXE event: MXE: 1stExonStart_0base 1stExonEnd 2ndExonStart_0base 2ndExonEnd upstreamES upstreamEE downstreamES downstreamEE
+The format of the input is as follows:                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                      
+     col 1 - ID - unique identifier for the skipped exon event                                                                                                                                                                                        
+     col 2 - GeneID - the ENSG identifier                                                                                                                                                                                                             
+     col 3 - geneSymbol - the text word for the gene                                                                                                                                                                                                  
+     col 4 - chromsome                                                                                                                                                                                                                                
+     col 5 - strand                                                                                                                                                                                                                                   
+     col 6 - 1stexonStart_0base - the start base coordinate (zero based) for the exon of interest                                                                                                                                                     
+     col 7 - 1stexonEnd - the end base coordinate for the exon of interest                                                                                                                                                                            
+     col 8 - 2ndexonStart_0base - start of 2nd exon                                                                                                                                                                                                   
+     col 9 - 2ndexonEnd                                                                                                                                                                                                                               
+     col 10 - upstreamES - the start base coordinate (zero based) for the upstream exon                                                                                                                                                               
+     col 11 - upstreamEE - the end coordinate for the upstream exon                                                                                                                                                                                   
+     col 12 - downstreamES - the start base coordinate (zero based) for the downstream exon                                                                                                                                                           
+     col 13 - downstreamEE - the end coordiante for the downstream exon                                                                                                                                                                               
+
 * If the strand is +, then the inclusion form includes the 1st exon (1stExonStart_0base, 1stExonEnd) and skips the 2nd exon
 * If the strand is -, then the inclusion form includes the 2nd exon (2ndExonStart_0base, 2ndExonEnd) and skips the 1st exon
 
@@ -54,6 +80,88 @@ The coordinates information is the same between the IJC and SJC numbers.  Though
 The addition of annotation information also helps to keep the user of this information informed regarding the subject of the evidence.
 
 This is very helpful in putting the information together.
+
+### Retention Exon (RI)
+
+The format of the input for a Retention Intron
+                                                                                                                                                                                                                                                      T
+     col 1 - ID - unique identifier for the skipped exon event                                                                                                                                                                                        
+     col 2 - GeneID - the ENSG identifier                                                                                                                                                                                                             
+     col 3 - geneSymbol - the text word for the gene                                                                                                                                                                                                  
+     col 4 - chromsome                                                                                                                                                                                                                                
+     col 5 - strand                                                                                                                                                                                                                                   
+     col 6 - riexonStart_0base - the start base coordinate (zero based) for the exon of interest                                                                                                                                                      
+     col 7 - riexonEnd - the end base coordinate for the exon of interest                                                                                                                                                                             
+     col 8 - upstreamES - the start base coordinate (zero based) for the upstream exon                                                                                                                                                                
+     col 9 - upstreamEE - the end coordinate for the upstream exon                                                                                                                                                                                    
+     col 10 - downstreamES - the start base coordinate (zero based) for the downstream exon                                                                                                                                                           
+     col 11 - downstreamEE - the end coordiante for the downstream exon                                                                                                                                                                               
+
+The script [prepareRIfiles.sh](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareRIfiles.sh) takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
+* [match_ri.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_ri.awk)
+* [make_bed_ri.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_bed_ri.awk)
+
+* `RI.SJC.matrix.txt` - the matrix with the normalized IDs based upon the non-redundant union of all the RI events in supplied files and counts for the retention intron junctions
+* `RI.SJC.w.coordinates.matrix.txt` - containing the coordinates for the RI exon in question, with upstream and downstream exon coordinates
+* `RI.IJC.matrix.txt` - the matrix with the normalized IDS and included junction counts
+* `RI.IJC.w.coordinates.matrix.txt` - containing the coordinates for the junction that the counts are concerning.
+
+Also yielding the bed file of all the events that can be loaded as a custom track in the UCSC browser.
+* `RI.coordinates.bed`
+
+### Alternative 3' Splice Site (A3SS)
+
+The format of the input is as follows:                                                                                                                                                                                                     
+          col 1 - ID                                                                                                                                                                                                                                  
+          col 2 - GeneID                                                                                                                                                                                                                              
+          col 3 - geneSymbol                                                                                                                                                                                                                          
+          col 4 - chr                                                                                                                                                                                                                                 
+          col 5 - strand                                                                                                                                                                                                                              
+          col 6 - longExonStart_0base                                                                                                                                                                                                                 
+          col 7 - longExonEnd                                                                                                                                                                                                                         
+          col 8 - shortES                                                                                                                                                                                                                             
+          col 9 - shortEE                                                                                                                                                                                                                             
+          col 10 - flankingES                                                                                                                                                                                                                         
+          col 11 - flankingEE                                                                                                                                                                                                                         
+
+The script [prepareA3SSfiles.sh](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareA3SSfiles.sh) takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
+* [match_a3ss.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_a3ss.awk)
+* [make_bed_a3ss.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_bed_a3ss.awk)
+
+* `A3SS.SJC.matrix.txt` - the matrix with the normalized IDs based upon the non-redundant union of all the A3SS events in supplied files and counts for the retention intron junctions
+* `A3SS.SJC.w.coordinates.matrix.txt` - containing the coordinates for the A3SS exon in question, with upstream and downstream exon coordinates
+* `A3SS.IJC.matrix.txt` - the matrix with the normalized IDS and included junction counts
+* `A3SS.IJC.w.coordinates.matrix.txt` - containing the coordinates for the junction that the counts are concerning.
+
+Also yielding the bed file of all the events that can be loaded as a custom track in the UCSC browser.
+* `A3SS.coordinates.bed`
+
+### Alternative 5' Splice Site (A5SS)
+
+The format of the input is as follows:                                                                                                                                                                                                     
+          col 1 - ID                                                                                                                                                                                                                                  
+          col 2 - GeneID                                                                                                                                                                                                                              
+          col 3 - geneSymbol                                                                                                                                                                                                                          
+          col 4 - chr                                                                                                                                                                                                                                 
+          col 5 - strand                                                                                                                                                                                                                              
+          col 6 - longExonStart_0base                                                                                                                                                                                                                 
+          col 7 - longExonEnd                                                                                                                                                                                                                         
+          col 8 - shortES                                                                                                                                                                                                                             
+          col 9 - shortEE                                                                                                                                                                                                                             
+          col 10 - flankingES                                                                                                                                                                                                                         
+          col 11 - flankingEE                                                                                                                                                                                                                         
+
+The script [prepareA5SSfiles.sh](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareA3SSfiles.sh) takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
+* [match_a5ss.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_a5ss.awk)
+* [make_bed_a5ss.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_bed_a5ss.awk)
+
+* `A5SS.SJC.matrix.txt` - the matrix with the normalized IDs based upon the non-redundant union of all the A5SS events in supplied files and counts for the retention intron junctions
+* `A5SS.SJC.w.coordinates.matrix.txt` - containing the coordinates for the A3SS exon in question, with upstream and downstream exon coordinates
+* `A5SS.IJC.matrix.txt` - the matrix with the normalized IDS and included junction counts
+* `A5SS.IJC.w.coordinates.matrix.txt` - containing the coordinates for the junction that the counts are concerning.
+
+Also yielding the bed file of all the events that can be loaded as a custom track in the UCSC browser.
+* `A5SS.coordinates.bed`
 
 ## Getting Domain Matrix Counts
 
