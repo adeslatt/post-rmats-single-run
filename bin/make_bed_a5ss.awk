@@ -53,7 +53,7 @@
 #      chr6    36596760    36598983    MYGENE    0    +    36596760    36598983    0    3    208,98,135    0,1668,2088
 #
 #    col 1 - the chromsome id
-#    col 2 - is the "thickStart" which is the beginning (this is the short exon (Start coordinate of the short exon) of the piece A5SS
+#    col 2 - is the "thickStart" which is the beginning (
 #    col 3 - is the "thick end" which is the end of the piece of mRNA we are exploring (the flanking exon start coordinate of the flanking Exon)
 #    col 4 - the name for the piece, in our case we will use the unique identifier generated from the creation of the unified file of all the
 #            samples under study
@@ -103,7 +103,7 @@ NR == 1 {
 	longExonStart     = $6 - $8
 	flankingExonStart = $10 - $8
 
-	print $4 OFS $10 OFS $9 OFS $3"_"$1 OFS 0 OFS $5 OFS $10 OFS $9 OFS 0 OFS 3 OFS shortExon","longExon","flankingExon OFS shortExonStart","longExonStart","flankingExonStart
+	print $4 OFS $8 OFS $11 OFS $3"_"$1 OFS 0 OFS $5 OFS $8 OFS $11 OFS 0 OFS 3 OFS shortExon","longExon","flankingExon OFS shortExonStart","longExonStart","flankingExonStart
     } else {
     # on the negative strand
     #  flanking exon is the highest distance - e.g. the exact opposite since we are going in reverse
@@ -114,6 +114,6 @@ NR == 1 {
 	longExonStart     = $6 - $10
         shortExonStart    = $8 - $10
 
-	print $4 OFS $8 OFS $11 OFS $3"_"$1 OFS 0 OFS $5 OFS $8 OFS $11 OFS 0 OFS 3 OFS flankingExon","longExon","shortExon OFS flankingExonStart","longExonStart","shortExonStart
+	print $4 OFS $10 OFS $9 OFS $3"_"$1 OFS 0 OFS $5 OFS $10 OFS $9 OFS 0 OFS 3 OFS flankingExon","longExon","shortExon OFS flankingExonStart","longExonStart","shortExonStart
     }
 }
