@@ -7,13 +7,17 @@ are detected separately and may not be present in every sample, donor, etc.
 
 But to analyze and even classify the separate files and their membership, we have to do the work.
 
-## Other Software Requirements
+## Software Requirements
 
-* [Docker](https://www.docker.com/products/docker-desktop/) - needs to be available and running on the computer on which you are executing.
-  This post-rmats-single-run work was done on a Mac Book Pro, 2019, 2.3 GHz 8-Core Intel Core i9, MacOS Sonoma 14.5
+All software was installed within a conda environment.   To the greatest extent possible, the installation was done using the packaging offered by Anaconda.  This isn't always possible.  And care must be taken to ensure you are installing the correct version. This is usually the latest version of the tool.  Installing the latest version of the tool isn't always possible because of operating systems.  Just do the best you can :).
 
-  In this run, I am using [cpat](https://cpat.readthedocs.io/en/latest/).
+* [cpat](https://cpat.readthedocs.io/en/latest/).
   This is the [coding potential assessment tool `(CPAT)`](https://academic.oup.com/nar/article/41/6/e74/2902455) to find open reading frames `(ORFs)`.
+
+  Installed using
+  ```bash
+  pip3 install CPAT
+  ```
  
 * [gotranseq](https://github.com/feliixx/gotranseq) - this is used for translating to amino acids the open reading frames found by cpat
 
@@ -21,7 +25,16 @@ But to analyze and even classify the separate files and their membership, we hav
 
 ## Inputs
 
-Output from an rMATS run
+In addition to the output from all of the rMATS runs you want to consider together, you will need the following reference files.
+
+These files are all human relative, because my experiments were done with human samples.  If your samples came from other organisms, you should adjust accordingly.
+
+For cpat and for Bedtools:
+* GRCh38.primary_assembly.genome.fa
+
+For cpat alone:
+* Human_Hexamer.tsv
+* Human_logitModel.RData
 
 ## Process
 
