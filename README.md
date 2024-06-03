@@ -17,7 +17,7 @@ But to analyze and even classify the separate files and their membership, we hav
  
 * [gotranseq](https://github.com/feliixx/gotranseq) - this is used for translating to amino acids the open reading frames found by cpat
 
-* [Bedtools](https://bedtools.readthedocs.io/en/latest/)
+* [Bedtools](https://bedtools.readthedocs.io/en/latest/) - this is used to make the bed files for viewing in the [UCSC Genome Browser](https://genome.ucsc.edu/cgi-bin/hgGateway)
 
 ## Inputs
 
