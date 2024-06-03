@@ -7,6 +7,18 @@ are detected separately and may not be present in every sample, donor, etc.
 
 But to analyze and even classify the separate files and their membership, we have to do the work.
 
+## Other Software Requirements
+
+* [Docker](https://www.docker.com/products/docker-desktop/) - needs to be available and running on the computer on which you are executing.
+  This post-rmats-single-run work was done on a Mac Book Pro, 2019, 2.3 GHz 8-Core Intel Core i9, MacOS Sonoma 14.5
+
+  In this run, I am using [cpat](https://cpat.readthedocs.io/en/latest/).
+  This is the [coding potential assessment tool `(CPAT)`](https://academic.oup.com/nar/article/41/6/e74/2902455) to find open reading frames `(ORFs)`.
+ 
+* [gotranseq](https://github.com/feliixx/gotranseq) - this is used for translating to amino acids the open reading frames found by cpat
+
+* [Bedtools](https://bedtools.readthedocs.io/en/latest/)
+
 ## Inputs
 
 Output from an rMATS run
@@ -42,7 +54,7 @@ For the SE files you would do this:
 cd SE_calculate
 ln -s ../*SE.MATS.JC.txt .
 ../../bin/prepareSEfiles.sh .
-../../bin/make_individual_files.sh
+../../bin/make_individual_SE_files.sh
 ```
 
 For the RI files, assuming you were in the SE_calculate subdirectory
