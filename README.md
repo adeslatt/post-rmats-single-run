@@ -179,7 +179,7 @@ This is very helpful in putting the information together.
 
 The format of the input for a Retention Intron
 
-                                                                                                                                                                                                                                 ```bash
+```bash
      col 1 - ID - unique identifier for the skipped exon event               
      col 2 - GeneID - the ENSG identifier
      col 3 - geneSymbol - the text word for the gene
@@ -192,6 +192,7 @@ The format of the input for a Retention Intron
      col 10 - downstreamES - the start base coordinate (zero based) for the downstream exon
      col 11 - downstreamEE - the end coordiante for the downstream exon 
 ```
+
 
 The script [prepareRIfiles.sh](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareRIfiles.sh) takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
 * [match_ri.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_ri.awk)
