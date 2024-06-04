@@ -49,7 +49,7 @@ for file in $allA5SSoriginalFiles; do
 
     echo $header > $bed_filename
     
-    awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_a5ss.awk $txt_filename >> $bed_filename
+    awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_a5ss.awk $file >> $bed_filename
     bedtools getfasta -rna -fi GRCh38.primary_assembly.genome.fa -bed $bed_filename > $fasta_filename
     cpat -x $human_hexamer -d $human_logitmodel -x Human_Hexamer.tsv -d Human_logitModel.RData.gz -g $fasta_filename --min-orf=50 --top-orf=50 -o $orf_filename 1> $cpat_output_filename 2> $cpat_error_filename
     ../../../gotranseq/gotranseq --sequence $orf_seqs_filename -o $orf_seqs_aa_filename -f 1
