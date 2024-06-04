@@ -77,7 +77,7 @@ For the SE files you would do this:
 ```bash
 cd SE_calculate
 # make symbolic links to your data files
-ln -s ../*SE.MATS.JC.txt
+ln -s ../*SE.MATS.JC.txt .
 # make symbolic links to your reference files
 ln -s ../../data/GRCh38.primary_assembly.genome.fa
 ln -s ../../data/Human_Hexamer.tsv
@@ -91,7 +91,7 @@ For the RI files, assuming you were in the SE_calculate subdirectory
 ```bash
 cd ../RI_calculate
 # make symbolic links to your data files
-ln -s ../*RI.MATS.JC.txt
+ln -s ../*RI.MATS.JC.txt .
 # make symbolic links to your reference files
 ln -s ../../data/GRCh38.primary_assembly.genome.fa
 ln -s ../../data/Human_Hexamer.tsv
@@ -105,7 +105,7 @@ for MXE files, assuming you were in the RI_calculate subdirectory
 ```bash
 cd ../MXE_calculate
 # make symbolic links to your data files
-ln -s ../*MXE.MATS.JC.txt
+ln -s ../*MXE.MATS.JC.txt .
 # make symbolic links to your reference files
 ln -s ../../data/GRCh38.primary_assembly.genome.fa
 ln -s ../../data/Human_Hexamer.tsv
