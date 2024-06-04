@@ -75,7 +75,7 @@ For the RI files, assuming you were in the SE_calculate subdirectory
 cd ../RI_calculate
 ln -s ../*RI.MATS.JC.txt .
 ../../bin/prepareRIfiles.sh .
-../../bin/make_individual_files.sh
+../../bin/make_individual_RI_files.sh
 ```
 
 for MXE files, assuming you were in the RI_calculate subdirectory
@@ -83,7 +83,7 @@ for MXE files, assuming you were in the RI_calculate subdirectory
 cd ../MXE_calculate
 ln -s ../*MXE.MATS.JC.txt .
 ../../bin/prepareMXEfiles.sh .
-../../bin/make_individual_files.sh
+../../bin/make_individual_MXE_files.sh
 ```
 
 for A3SS files, assuming you were in the MXE_calculate subdirectory
@@ -91,7 +91,7 @@ for A3SS files, assuming you were in the MXE_calculate subdirectory
 cd ../A3SS_calculate
 ln -s ../*A3SS.MATS.JC.txt .
 ../../bin/prepareA3SSfiles.sh .
-../../bin/make_individual_files.sh
+../../bin/make_individual_A3SS_files.sh
 ```
 
 for A5SS files, assuming you were in the A3SS_calculate subdirectory
@@ -99,7 +99,7 @@ for A5SS files, assuming you were in the A3SS_calculate subdirectory
 cd ../A3SS_calculate
 ln -s ../*A3SS.MATS.JC.txt .
 ../../bin/prepareA3SSfiles.sh .
-../../bin/make_individual_files.sh
+../../bin/make_individual_A5SS_files.sh
 ```
 
 Now we will look at what is produced by each of these programs.
@@ -264,26 +264,12 @@ For this particular study, it is looking for molecular differences between patie
 
 We now get the **protein domains** that are present in these experimental files.
 
-Using the coordinate files we obtain through a series of steps:
-
-* make bed files (via 'make_se_bed.awk', 'make_ri_bed.awk', 'make_mxe_bed.awk')
-* obtain the sequence data covered by the regions outlined by the measured results (via 'bedtools getfasta')
-* call the protein open reading frames covered by these sequence data (via 'cpat.py')
-* translate these protein ORFs to amino acid sequence (via 'gotranseq')
-
-This is obtained with the execution of `make_individual_files.sh'
-
-Run from the experimental data directory:
-```bash
-../../bin/make_individual_files.sh
-```
+Having run all of the routines for each of the alternative splicing events (SE, RI, MXE, A3SS, A5SS)
 
 Next step to make the search for the exact domain sequence is to linearize these amino acid sequences removing the standard 60 character limitation.
 Also run in the same directory.
 
-```bash
- ../bin/makingAASingleLine.sh .
-```
+To perform the grep on each of the files - we need to linearize the AA fasta files.   This is done with the routine `makingAASingleLine.sh`.
 
 Now as a matter of cleanliness and convienence, each of these file types were then put into their own directory - to make the final matrix creation easy.
 
@@ -295,6 +281,12 @@ mkdir RI_linear
 mkdir A3SS_linear
 mkdir A5SS_linear
 ```
+Note that you need to specify the directory -- so in this case below you will see `.` which is the current directory.
+
+```bash
+ ../bin/makingAASingleLine.sh .
+```
+
 And the linear files associated with SE, MXE, and RI moved into their appropriate subdirectories.
 
 ## Making protein files
