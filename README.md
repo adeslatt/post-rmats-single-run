@@ -106,20 +106,21 @@ Now we will look at what is produced by each of these programs.
 
 ### Skipped Exon (SE)
 
-The format of the input is as follows:                                                                                                                                                                                                           
-                                                                                                                                                                                                                                                      
-     col 1 - ID - unique identifier for the skipped exon event                                                                                                                                                                                        
-     col 2 - GeneID - the ENSG identifier                                                                                                                                                                                                             
-     col 3 - geneSymbol - the text word for the gene                                                                                                                                                                                                  
-     col 4 - chromsome                                                                                                                                                                                                                                
-     col 5 - strand                                                                                                                                                                                                                                   
-     col 6 - exonStart_0base - the start base coordinate (zero based) for the exon of interest                                                                                                                                                        
-     col 7 - exonEnd - the end base coordinate for the exon of interest                                                                                                                                                                               
-     col 8 - upstreamES - the start base coordinate (zero based) for the upstream exon                                                                                                                                                                
-     col 9 - upstreamEE - the end coordinate for the upstream exon                                                                                                                                                                                    
-     col 10 - downstreamES - the start base coordinate (zero based) for the downstream exon                                                                                                                                                           
-     col 11 - downstreamEE - the end coordiante for the downstream exon                                                                                                                                                                               
-                                                                                                                                                                                                                                                      
+The format of the input is as follows:           
+```bash                                                                                                                                                                                                                
+     col 1 - ID - unique identifier for the skipped exon event 
+     col 2 - GeneID - the ENSG identifier                                                                                                                                                                                       
+     col 3 - geneSymbol - the text word for the gene
+     col 4 - chromsome                                                                                                                                                                                                  
+     col 5 - strand
+     col 6 - exonStart_0base - the start base coordinate (zero based) for the exon of interest
+     col 7 - exonEnd - the end base coordinate for the exon of interest
+     col 8 - upstreamES - the start base coordinate (zero based) for the upstream exon
+     col 9 - upstreamEE - the end coordinate for the upstream exon
+     col 10 - downstreamES - the start base coordinate (zero based) for the downstream exon
+     col 11 - downstreamEE - the end coordiante for the downstream exon  
+```
+
 The script [prepareSEfiles.sh](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareSEfiles.sh) takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
 * [match_se.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_se.awk)
 * [make_bed_se.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/make_bed_se.awk)
@@ -134,21 +135,23 @@ Also yielding the bed file of all the events that can be loaded as a custom trac
 
 ### Mutually Excluded Exon (MXE)
 
-The format of the input is as follows:                                                                                                                                                                                                           
-                                                                                                                                                                                                                                                      
-     col 1 - ID - unique identifier for the skipped exon event                                                                                                                                                                                        
-     col 2 - GeneID - the ENSG identifier                                                                                                                                                                                                             
-     col 3 - geneSymbol - the text word for the gene                                                                                                                                                                                                  
-     col 4 - chromsome                                                                                                                                                                                                                                
-     col 5 - strand                                                                                                                                                                                                                                   
-     col 6 - 1stexonStart_0base - the start base coordinate (zero based) for the exon of interest                                                                                                                                                     
-     col 7 - 1stexonEnd - the end base coordinate for the exon of interest                                                                                                                                                                            
-     col 8 - 2ndexonStart_0base - start of 2nd exon                                                                                                                                                                                                   
-     col 9 - 2ndexonEnd                                                                                                                                                                                                                               
-     col 10 - upstreamES - the start base coordinate (zero based) for the upstream exon                                                                                                                                                               
-     col 11 - upstreamEE - the end coordinate for the upstream exon                                                                                                                                                                                   
-     col 12 - downstreamES - the start base coordinate (zero based) for the downstream exon                                                                                                                                                           
-     col 13 - downstreamEE - the end coordiante for the downstream exon                                                                                                                                                                               
+The format of the input is as follows:
+
+```bash
+     col 1 - ID - unique identifier for the skipped exon event 
+     col 2 - GeneID - the ENSG identifier
+     col 3 - geneSymbol - the text word for the gene
+     col 4 - chromsome
+     col 5 - strand  
+     col 6 - 1stexonStart_0base - the start base coordinate (zero based) for the exon of interest
+     col 7 - 1stexonEnd - the end base coordinate for the exon of interest
+     col 8 - 2ndexonStart_0base - start of 2nd exon
+     col 9 - 2ndexonEnd
+     col 10 - upstreamES - the start base coordinate (zero based) for the upstream exon
+     col 11 - upstreamEE - the end coordinate for the upstream exon
+     col 12 - downstreamES - the start base coordinate (zero based) for the downstream exon
+     col 13 - downstreamEE - the end coordiante for the downstream exon 
+```
 
 * If the strand is +, then the inclusion form includes the 1st exon (1stExonStart_0base, 1stExonEnd) and skips the 2nd exon
 * If the strand is -, then the inclusion form includes the 2nd exon (2ndExonStart_0base, 2ndExonEnd) and skips the 1st exon
@@ -175,18 +178,20 @@ This is very helpful in putting the information together.
 ### Retention Exon (RI)
 
 The format of the input for a Retention Intron
-                                                                                                                                                                                                                                                      T
-     col 1 - ID - unique identifier for the skipped exon event                                                                                                                                                                                        
-     col 2 - GeneID - the ENSG identifier                                                                                                                                                                                                             
-     col 3 - geneSymbol - the text word for the gene                                                                                                                                                                                                  
-     col 4 - chromsome                                                                                                                                                                                                                                
-     col 5 - strand                                                                                                                                                                                                                                   
-     col 6 - riexonStart_0base - the start base coordinate (zero based) for the exon of interest                                                                                                                                                      
-     col 7 - riexonEnd - the end base coordinate for the exon of interest                                                                                                                                                                             
-     col 8 - upstreamES - the start base coordinate (zero based) for the upstream exon                                                                                                                                                                
-     col 9 - upstreamEE - the end coordinate for the upstream exon                                                                                                                                                                                    
-     col 10 - downstreamES - the start base coordinate (zero based) for the downstream exon                                                                                                                                                           
-     col 11 - downstreamEE - the end coordiante for the downstream exon                                                                                                                                                                               
+
+                                                                                                                                                                                                                                 ```bash
+     col 1 - ID - unique identifier for the skipped exon event               
+     col 2 - GeneID - the ENSG identifier
+     col 3 - geneSymbol - the text word for the gene
+     col 4 - chromsome
+     col 5 - strand
+     col 6 - riexonStart_0base - the start base coordinate (zero based) for the exon of interest
+     col 7 - riexonEnd - the end base coordinate for the exon of interest 
+     col 8 - upstreamES - the start base coordinate (zero based) for the upstream exon
+     col 9 - upstreamEE - the end coordinate for the upstream exon
+     col 10 - downstreamES - the start base coordinate (zero based) for the downstream exon
+     col 11 - downstreamEE - the end coordiante for the downstream exon 
+```
 
 The script [prepareRIfiles.sh](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareRIfiles.sh) takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
 * [match_ri.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_ri.awk)
@@ -202,18 +207,21 @@ Also yielding the bed file of all the events that can be loaded as a custom trac
 
 ### Alternative 3' Splice Site (A3SS)
 
-The format of the input is as follows:                                                                                                                                                                                                     
-          col 1 - ID                                                                                                                                                                                                                                  
-          col 2 - GeneID                                                                                                                                                                                                                              
-          col 3 - geneSymbol                                                                                                                                                                                                                          
-          col 4 - chr                                                                                                                                                                                                                                 
-          col 5 - strand                                                                                                                                                                                                                              
-          col 6 - longExonStart_0base                                                                                                                                                                                                                 
-          col 7 - longExonEnd                                                                                                                                                                                                                         
-          col 8 - shortES                                                                                                                                                                                                                             
-          col 9 - shortEE                                                                                                                                                                                                                             
-          col 10 - flankingES                                                                                                                                                                                                                         
-          col 11 - flankingEE                                                                                                                                                                                                                         
+The format of the input is as follows:
+
+```bash
+          col 1 - ID 
+          col 2 - GeneID 
+          col 3 - geneSymbol 
+          col 4 - chr 
+          col 5 - strand 
+          col 6 - longExonStart_0base 
+          col 7 - longExonEnd 
+          col 8 - shortES 
+          col 9 - shortEE
+          col 10 - flankingES  
+          col 11 - flankingEE
+```
 
 The script [prepareA3SSfiles.sh](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareA3SSfiles.sh) takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
 * [match_a3ss.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_a3ss.awk)
@@ -229,18 +237,21 @@ Also yielding the bed file of all the events that can be loaded as a custom trac
 
 ### Alternative 5' Splice Site (A5SS)
 
-The format of the input is as follows:                                                                                                                                                                                                     
-          col 1 - ID                                                                                                                                                                                                                                  
-          col 2 - GeneID                                                                                                                                                                                                                              
-          col 3 - geneSymbol                                                                                                                                                                                                                          
-          col 4 - chr                                                                                                                                                                                                                                 
-          col 5 - strand                                                                                                                                                                                                                              
-          col 6 - longExonStart_0base                                                                                                                                                                                                                 
-          col 7 - longExonEnd                                                                                                                                                                                                                         
-          col 8 - shortES                                                                                                                                                                                                                             
-          col 9 - shortEE                                                                                                                                                                                                                             
-          col 10 - flankingES                                                                                                                                                                                                                         
-          col 11 - flankingEE                                                                                                                                                                                                                         
+The format of the input is as follows:   
+
+```bash
+          col 1 - ID  
+          col 2 - GeneID 
+          col 3 - geneSymbol 
+          col 4 - chr  
+          col 5 - strand  
+          col 6 - longExonStart_0base 
+          col 7 - longExonEnd 
+          col 8 - shortES 
+          col 9 - shortEE
+          col 10 - flankingES 
+          col 11 - flankingEE
+```
 
 The script [prepareA5SSfiles.sh](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/prepareA3SSfiles.sh) takes the output from supplied single run rMATS analyses and makes `4` matricies using two awk scripts:
 * [match_a5ss.awk](https://github.com/adeslatt/post-rmats-single-run/blob/main/bin/match_a5ss.awk)
