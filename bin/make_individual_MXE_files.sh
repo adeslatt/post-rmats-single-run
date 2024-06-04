@@ -11,7 +11,7 @@ coordinates_bed_end=".coordinates.bed"
 coordinates_fasta_end=".coordinates.fasta"
 cpat_output=".cpat_output"
 cpat_error=".cpat_error"
-orf_seqs_end=".ORF_se`qs.fa"
+orf_seqs_end=".ORF_seqs.fa"
 orf_linear_aa_end="_linear_aa.fa"
 orf_seqs_aa_end=".ORF_seqs_aa.fa"
 
