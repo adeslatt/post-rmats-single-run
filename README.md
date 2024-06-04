@@ -364,7 +364,7 @@ mkdir protein_domain_counts/MYC_A5SS
 We change directory into each of them and count, for example:
 ```bash
 cd protein_domain_counts/MYC_SE
-awk -v experiment_dir="/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/paired.TAM.AMLv2/SE_linear/" -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/process_domains.awk "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/protein_aa/MYC_human_P01106.txt"
+awk -v experiment_dir="/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/paired.TAM.AMLv2/SE_calculate/" -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/process_domains.awk "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/protein_aa/MYC_human_P01106.txt"
 ```
 
 Now we have each of the experiments and the read counts - but to analyze better a matrix would serve the rule.
