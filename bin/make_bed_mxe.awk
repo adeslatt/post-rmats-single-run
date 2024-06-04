@@ -85,23 +85,26 @@ NR == 1 {
     # trippy for me is that the exons are now rearranged
     # exon2  is one of the two  exons of interest
     # exon3  is the second of two exons of interest
-    # exon1 is the upstream exon
-    # exon4 is the downstream exon
-    exon1 = $11 - $10 #upstream
-    exon2 = $7 - $6   #1st exon in MXE
-    exon3 = $9 - $8   #2nd exon in MXE
-    exon4 = $13 - $12 #downstream
+    # upstreamexon is the upstream exon
+    # downstreamexon is the downstream exon
+    upstreamexon   = $11 - $10 #upstream
+    firstexon      = $7 - $6   #1st exon in MXE
+    secondexon     = $9 - $8   #2nd exon in MXE
+    downstreamexon = $13 - $12 #downstream
 
     # so the transcript start is the upstream start col
-    start1 = $10 - $10
-    start2 = $6  - $10
-    start3 = $8  - $10
-    start4 = $12 - $10
+    upstreamexonstart   = $10 - $10
+    firstexonstart      = $6  - $10
+    secondexonstart     = $8  - $10
+    downstreamexonstart = $12 - $10
 
     # so the gene symbol that gets printed out does not have quotes on it - lets strip them
     gsub(/"/, "", $3)
 
+    # strand
+    strand       = $5
+    
     # Print the desired output
-    print $4 OFS $10 OFS $13 OFS $3"_"$1 OFS 0 OFS $5 OFS $10 OFS $13 OFS 0 OFS 4 OFS exon1","exon2","exon3","exon4 OFS start1","start2","start3","start4
+    print $4 OFS $10 OFS $13 OFS $3"_"$1 OFS 0 OFS $5 OFS $10 OFS $13 OFS 0 OFS 4 OFS upstreamexon","firstexon","secondexon","downstreamexon OFS upstreamexonstart","firstexonstart","secondexonstart","downstreamexonstart
 
 }
