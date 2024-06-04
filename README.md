@@ -84,6 +84,7 @@ ln -s ../../data/Human_Hexamer.tsv
 ln -s ../../data/Human_logitModel.RData
 ../../bin/prepareSEfiles.sh .
 ../../bin/make_individual_SE_files.sh
+../../bin/makingAASingleLine.sh
 ```
 
 For the RI files, assuming you were in the SE_calculate subdirectory
@@ -97,6 +98,7 @@ ln -s ../../data/Human_Hexamer.tsv
 ln -s ../../data/Human_logitModel.RData
 ../../bin/prepareRIfiles.sh .
 ../../bin/make_individual_RI_files.sh
+../../bin/makingAASingleLine.sh
 ```
 
 for MXE files, assuming you were in the RI_calculate subdirectory
@@ -110,6 +112,7 @@ ln -s ../../data/Human_Hexamer.tsv
 ln -s ../../data/Human_logitModel.RData
 ../../bin/prepareMXEfiles.sh .
 ../../bin/make_individual_MXE_files.sh
+../../bin/makingAASingleLine.sh
 ```
 
 for A3SS files, assuming you were in the MXE_calculate subdirectory
@@ -123,6 +126,7 @@ ln -s ../../data/Human_Hexamer.tsv
 ln -s ../../data/Human_logitModel.RData
 ../../bin/prepareA3SSfiles.sh .
 ../../bin/make_individual_A3SS_files.sh
+../../bin/makingAASingleLine.sh
 ```
 
 for A5SS files, assuming you were in the A3SS_calculate subdirectory
@@ -136,6 +140,7 @@ ln -s ../../data/Human_Hexamer.tsv
 ln -s ../../data/Human_logitModel.RData
 ../../bin/prepareA3SSfiles.sh .
 ../../bin/make_individual_A5SS_files.sh
+../../bin/makingAASingleLine.sh
 ```
 
 Now we will look at what is produced by each of these programs.
@@ -317,25 +322,7 @@ Having run all of the routines for each of the alternative splicing events (SE, 
 Next step to make the search for the exact domain sequence is to linearize these amino acid sequences removing the standard 60 character limitation.
 Also run in the same directory.
 
-To perform the grep on each of the files - we need to linearize the AA fasta files.   This is done with the routine `makingAASingleLine.sh`.
-
-Now as a matter of cleanliness and convienence, each of these file types were then put into their own directory - to make the final matrix creation easy.
-
-So within the experiment directory, three subdirectories were made
-```bash
-mkdir SE_linear
-mkdir MXE_linear
-mkdir RI_linear
-mkdir A3SS_linear
-mkdir A5SS_linear
-```
-Note that you need to specify the directory -- so in this case below you will see `.` which is the current directory.
-
-```bash
- ../bin/makingAASingleLine.sh .
-```
-
-And the linear files associated with SE, MXE, and RI moved into their appropriate subdirectories.
+Since our calculations were done in separate directories, the linear files associated with SE, MXE, and RI moved into their appropriate subdirectories.
 
 ## Making protein files
 
