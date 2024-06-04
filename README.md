@@ -73,6 +73,9 @@ Please note that the "." means current directory.   This is required for the pre
 Also we need to make a symbolic link to the master copies of the three reference files.
 If you have them in your data directory - this would be done as shown below.
 
+Note that when you do use a symbolic link for a set of files with a wild card, you do need to specify the current directory as shown below.
+When just symbolicly linking a single file that is explicitly named, this specification is not required.
+
 For the SE files you would do this:
 ```bash
 cd SE_calculate
