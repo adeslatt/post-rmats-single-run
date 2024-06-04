@@ -19,6 +19,11 @@ underscore="_"
 space=" "
 period="."
 
+directory=$1
+cd $directory
+
+echo pwd
+
 # make the individual sample bed files
 for file in $allMXEoriginalFiles; do
     name="${file%_RBS_withJunctionsOnGenome_dupsFlagged_r1.filtered.MXE.MATS.JC.txt}"
@@ -49,7 +54,7 @@ for file in $allMXEoriginalFiles; do
 
     echo $header > $bed_filename
     
-    awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_mxe.awk $txt_filename >> $bed_filename
+    awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_mxe.awk $file >> $bed_filename
     bedtools getfasta -rna -fi GRCh38.primary_assembly.genome.fa -bed $bed_filename > $fasta_filename
     cpat -x $human_hexamer -d $human_logitmodel -x Human_Hexamer.tsv -d Human_logitModel.RData.gz -g $fasta_filename --min-orf=50 --top-orf=50 -o $orf_filename 1> $cpat_output_filename 2> $cpat_error_filename
     ../../../gotranseq/gotranseq --sequence $orf_seqs_filename -o $orf_seqs_aa_filename -f 1
