@@ -36,6 +36,14 @@ For cpat alone:
 * Human_Hexamer.tsv
 * Human_logitModel.RData
 
+These three files will need to be in the directory where the routines:
+* prepare[SE|RI|MXE|A3SS|A5SS]files.sh and
+* make_individual_[SE|RI|MXE|A3SS|A5SS]_files.sh
+
+are executed, an error will result telling you that they are not found.
+
+When not using a workflow language (which we will modify this entire enterprise too, the alternative best practice is to have only one copy of the file and then symbolicly link the file to the location where it is sought.
+
 ## Process
 
 There are five(5) different alternative splicing events that are classified by rMATS:
@@ -62,10 +70,18 @@ For example, assuming that the subdirectories are within the directory where you
 
 Please note that the "." means current directory.   This is required for the prepareXXfiles.sh runs (XX== SE, RI, MXE, A3SS, or A5SS)
 
+Also we need to make a symbolic link to the master copies of the three reference files.
+If you have them in your data directory - this would be done as shown below.
+
 For the SE files you would do this:
 ```bash
 cd SE_calculate
-ln -s ../*SE.MATS.JC.txt .
+# make symbolic links to your data files
+ln -s ../*SE.MATS.JC.txt
+# make symbolic links to your reference files
+ln -s ../../data/GRCh38.primary_assembly.genome.fa
+ln -s ../../data/Human_Hexamer.tsv
+ln -s ../../data/Human_logitModel.RData
 ../../bin/prepareSEfiles.sh .
 ../../bin/make_individual_SE_files.sh
 ```
@@ -73,7 +89,12 @@ ln -s ../*SE.MATS.JC.txt .
 For the RI files, assuming you were in the SE_calculate subdirectory
 ```bash
 cd ../RI_calculate
-ln -s ../*RI.MATS.JC.txt .
+# make symbolic links to your data files
+ln -s ../*RI.MATS.JC.txt
+# make symbolic links to your reference files
+ln -s ../../data/GRCh38.primary_assembly.genome.fa
+ln -s ../../data/Human_Hexamer.tsv
+ln -s ../../data/Human_logitModel.RData
 ../../bin/prepareRIfiles.sh .
 ../../bin/make_individual_RI_files.sh
 ```
@@ -81,7 +102,12 @@ ln -s ../*RI.MATS.JC.txt .
 for MXE files, assuming you were in the RI_calculate subdirectory
 ```bash
 cd ../MXE_calculate
-ln -s ../*MXE.MATS.JC.txt .
+# make symbolic links to your data files
+ln -s ../*MXE.MATS.JC.txt
+# make symbolic links to your reference files
+ln -s ../../data/GRCh38.primary_assembly.genome.fa
+ln -s ../../data/Human_Hexamer.tsv
+ln -s ../../data/Human_logitModel.RData
 ../../bin/prepareMXEfiles.sh .
 ../../bin/make_individual_MXE_files.sh
 ```
@@ -89,7 +115,12 @@ ln -s ../*MXE.MATS.JC.txt .
 for A3SS files, assuming you were in the MXE_calculate subdirectory
 ```bash
 cd ../A3SS_calculate
+# make symbolic links to your data files
 ln -s ../*A3SS.MATS.JC.txt .
+# make symbolic links to your reference files
+ln -s ../../data/GRCh38.primary_assembly.genome.fa
+ln -s ../../data/Human_Hexamer.tsv
+ln -s ../../data/Human_logitModel.RData
 ../../bin/prepareA3SSfiles.sh .
 ../../bin/make_individual_A3SS_files.sh
 ```
@@ -97,7 +128,12 @@ ln -s ../*A3SS.MATS.JC.txt .
 for A5SS files, assuming you were in the A3SS_calculate subdirectory
 ```bash
 cd ../A3SS_calculate
+# make symbolic links to your data files
 ln -s ../*A3SS.MATS.JC.txt .
+# make symbolic links to your reference files
+ln -s ../../data/GRCh38.primary_assembly.genome.fa
+ln -s ../../data/Human_Hexamer.tsv
+ln -s ../../data/Human_logitModel.RData
 ../../bin/prepareA3SSfiles.sh .
 ../../bin/make_individual_A5SS_files.sh
 ```
