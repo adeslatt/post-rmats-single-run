@@ -16,37 +16,16 @@
 #
 #  
 #
-# Define the relative directory where your experimental files are located
-#experiment_dir="/path/to/experiment_directory"
-cd $1
-# Define the relative location file containing protein and domain data
-#  (one pair per line, in the format "ProteinName:DomainSequence")
-#  FUTURE THOUGHTS: Replace this with an API.
 #
+# Ensure proper usage of the script
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <experiment_dir> <protein_domain_data_file>"
+    exit 1
+fi
 
-#data_file="/path/to/protein_domain_data.txt"
+# Assign command line arguments to variables
+experiment_dir=$1
 data_file=$2
 
-alllinearaafa="*_linear_aa.fa"
-
-# Loop through each line in the data file
-first_time=1
-colon=":"
-for file in $alllinearaafa; do
-    
-    while IFS= read -r line; do
-	# Split the line into protein name and domain sequence using ":" as a delimiter
-	IFS=":" read -r protein_name domain_name aa_position domain_sequence <<< "$line"
-    
-        # Generate the output filename based on the input experiment file
-        output_file="${file##*/}_results.txt"
-        if (($first_time == 1));  then
-	    echo "Protein:Domain_Name:AA_position:Domain_Sequence:$file" > "$output_file"
-	else
-	    # Use grep to search for the domain sequence in the experiment file
-	    read_count=$(grep -c "$domain_sequence" "$file")
-	    echo "$protein_name$colon$domain_name$colon$aa_position$colon$domain_sequence$colon$read_count" >> $output_file
-	fi
-        
-    done < $file
-done 
+# Call the awk script with experiment directory as an argument
+awk -v experiment_dir="$experiment_dir" -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/process_domains.awk" "$data_file"

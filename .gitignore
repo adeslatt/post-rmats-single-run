@@ -1,2 +1,10 @@
 data/
+design/
+LINGER/
+paired.TAM.AMLv2/
+protein_aa/
+TAM.AML.all/
+unpaired.TAM.AMLprogressionv3/
+unpaired.TAM.noAMLprogressionv2/
+viper/
 *checkpoint*

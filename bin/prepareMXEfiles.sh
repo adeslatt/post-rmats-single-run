@@ -78,6 +78,12 @@ PWD=$(pwd)
 echo "Current Working Directory is = " $PWD
 echo "allMXE                        = " $allMXE
 
+# Get the directory of this script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Construct the relative path to the awk script
+AWK_SCRIPT="$SCRIPT_DIR/../bin/match_mxe.awk"
+
 #
 #   step 1 - extract coordinates from the MXE file
 #
@@ -191,8 +197,11 @@ for file in $allSortedMXE; do
     echo "name                = " $name
     echo "name_norm_mxe       = " $name_norm_mxe
 
-    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_mxe.awk" $file $mxeCoordinatesFile > $name$normMXEend
-
+    # old absolute path
+    #    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_mxe.awk" $file $mxeCoordinatesFile > $name$normMXEend
+    # new relative path
+    gawk -f "$AWK_SCRIPT" $file $mxeCoordinatesFile > $name$normMXEend
+    
 done
 
 #   step 8 - break normalized files into IJC, SJC files
@@ -339,4 +348,8 @@ sed 's/ /,/g' < $SJC_w_coordinates_matrix > $SJC_w_coordinates_matrix_csv
 #            
 
 echo "track name=rMATS_MXE description=\"rMATS MXE Events DS-AML\"" > MXE.coordinates.bed
-awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_mxe.awk MXE.coordinates.matrix.txt >> MXE.coordinates.bed
+
+# old absolute path
+#     awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_a3ss.awk A3SS.coordinates.matrix.txt >> A3SS.coordinates.bed
+# new relative path
+gawk -f "$SCRIPT_DIR/../bin/make_bed_a3ss.awk" MXE.coordinates.matrix.txt >> MXE.coordinates.bed

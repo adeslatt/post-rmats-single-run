@@ -77,6 +77,12 @@ PWD=$(pwd)
 echo "Current Working Directory is = " $PWD
 echo "allA5SS                        = " $allA5SS
 
+# Get the directory of this script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Construct the relative path to the awk script
+AWK_SCRIPT="$SCRIPT_DIR/../bin/match_a5ss.awk"
+
 #
 #   step 1 - extract coordinates from the A5SS file
 #
@@ -185,8 +191,11 @@ for file in $allSortedA5SS; do
     echo "name                = " $name
     echo "name_norm_a5ss      = " $name_norm_a5ss
 
-    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_a5ss.awk" $file $a5ssCoordinatesFile > $name$normA5SSend
-
+    # old absolute path
+    #    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_a5ss.awk" $file $a5ssCoordinatesFile > $name$normA5SSend
+    # new relative path
+    gawk -f "$AWK_SCRIPT" $file $a5ssCoordinatesFile > $name$normA5SSend
+    
 done
 
 #   step 8 - break normalized files into IJC, SJC files
@@ -334,4 +343,9 @@ sed 's/ /,/g' < $SJC_w_coordinates_matrix > $SJC_w_coordinates_matrix_csv
 #            
 
 echo "track name=rMATS_A5SS description=\"rMATS A5SS Events DS-AML\"" > A5SS.coordinates.bed
-awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_a5ss.awk A5SS.coordinates.matrix.txt >> A5SS.coordinates.bed
+
+# old absolute path
+#     awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_a5ss.awk A5SS.coordinates.matrix.txt >> A5SS.coordinates.bed
+# new relative path
+gawk -f "$SCRIPT_DIR/../bin/make_bed_a5ss.awk" A5SS.coordinates.matrix.txt >> A5SS.coordinates.bed
+

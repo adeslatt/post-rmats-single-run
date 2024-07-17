@@ -19,6 +19,14 @@ underscore="_"
 space=" "
 period="."
 
+# Get the directory of this script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo "SCRIPT_DIR $SCRIPT_DIR"
+
+# Construct the relative path to the gotranseq directory
+TRANSEQ_DIR="$SCRIPT_DIR/../../gotranseq"
+echo "TRANSEQ_DIR is $TRANSEQ_DIR"
+
 # make the individual sample bed files
 for file in $allA5SSoriginalFiles; do
     name="${file%_RBS_withJunctionsOnGenome_dupsFlagged_r1.filtered.A5SS.MATS.JC.txt}"
@@ -48,10 +56,13 @@ for file in $allA5SSoriginalFiles; do
     cut -f 1-11 $file > $txt_filename
 
     echo $header > $bed_filename
+    # old absolute path
+    #    awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_a5ss.awk $file >> $bed_filename
+    # new relative path
+    gawk -f "$SCRIPT_DIR/make_bed_a5ss.awk" $file >> $bed_filename
     
-    awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_a5ss.awk $file >> $bed_filename
     bedtools getfasta -rna -fi GRCh38.primary_assembly.genome.fa -bed $bed_filename > $fasta_filename
     cpat -x $human_hexamer -d $human_logitmodel -x Human_Hexamer.tsv -d Human_logitModel.RData.gz -g $fasta_filename --min-orf=50 --top-orf=50 -o $orf_filename 1> $cpat_output_filename 2> $cpat_error_filename
-    ../../../gotranseq/gotranseq --sequence $orf_seqs_filename -o $orf_seqs_aa_filename -f 1
+    "$TRANSEQ_DIR/gotranseq" --sequence $orf_seqs_filename -o $orf_seqs_aa_filename -f 1
 
 done

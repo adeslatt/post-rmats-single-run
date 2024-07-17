@@ -76,6 +76,12 @@ PWD=$(pwd)
 echo "Current Working Directory is = " $PWD
 echo "allSE                        = " $allSE
 
+# Get the directory of this script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Construct the relative path to the awk script
+AWK_SCRIPT="$SCRIPT_DIR/../bin/match_se.awk"
+
 #
 #   step 1 - extract coordinates from the SE file
 #
@@ -184,8 +190,12 @@ for file in $allSortedSE; do
     echo "file                = " $file
     echo "name                = " $name
     echo "name_norm_se        = " $name_norm_se
+    
+    # old absolute path
+    #    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_se.awk" $file $seCoordinatesFile > $name$normSEend
+    # new relative path
+    gawk -f "$AWK_SCRIPT" $file $seCoordinatesFile > $name$normSEend
 
-    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_se.awk" $file $seCoordinatesFile > $name$normSEend
 
 done
 
@@ -334,4 +344,8 @@ sed 's/ /,/g' < $SJC_w_coordinates_matrix > $SJC_w_coordinates_matrix_csv
 #            
 
 echo "track name=rMATS_SE description=\"rMATS SE Events DS-AML\"" > SE.coordinates.bed
-awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_se.awk SE.coordinates.matrix.txt >> SE.coordinates.bed
+# old absolute path
+#     awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_se.awk SE.coordinates.matrix.txt >> SE.coordinates.bed
+# new relative path
+gawk -f "$SCRIPT_DIR/../bin/make_bed_se.awk" SE.coordinates.matrix.txt >> SE.coordinates.bed
+

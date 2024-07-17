@@ -76,6 +76,12 @@ PWD=$(pwd)
 echo "Current Working Directory is = " $PWD
 echo "allRI                        = " $allRI
 
+# Get the directory of this script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Construct the relative path to the awk script
+AWK_SCRIPT="$SCRIPT_DIR/../bin/match_ri.awk"
+
 #
 #   step 1 - extract coordinates from the RI file
 #
@@ -198,8 +204,11 @@ for file in $allSortedRI; do
     echo "file                = " $file
     echo "name                = " $name
     echo "name_norm_ri        = " $name_norm_ri
-
-    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_ri.awk" $file $riCoordinatesFile > $name$normRIend
+    
+    # old absolute path
+    #    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_ri.awk" $file $riCoordinatesFile > $name$normRIend
+    # new relative path
+    gawk -f "$AWK_SCRIPT" $file $riCoordinatesFile > $name$normRIend
 
 done
 
@@ -348,4 +357,7 @@ sed 's/ /,/g' < $SJC_w_coordinates_matrix > $SJC_w_coordinates_matrix_csv
 #            
 
 echo "track name=rMATS_RI description=\"rMATS RI Events DS-AML\"" > RI.coordinates.bed
-awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_ri.awk RI.coordinates.matrix.txt >> RI.coordinates.bed
+# old absolute path
+#     awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_ri.awk RI.coordinates.matrix.txt >> RI.coordinates.bed
+# new relative path
+gawk -f "$SCRIPT_DIR/../bin/make_bed_ri.awk" RI.coordinates.matrix.txt >> RI.coordinates.bed

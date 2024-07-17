@@ -77,6 +77,12 @@ PWD=$(pwd)
 echo "Current Working Directory is = " $PWD
 echo "allA3SS                        = " $allA3SS
 
+# Get the directory of this script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Construct the relative path to the awk script
+AWK_SCRIPT="$SCRIPT_DIR/../bin/match_a3ss.awk"
+
 #
 #   step 1 - extract coordinates from the A3SS file
 #
@@ -185,7 +191,11 @@ for file in $allSortedA3SS; do
     echo "name                = " $name
     echo "name_norm_a3ss      = " $name_norm_a3ss
 
-    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_a3ss.awk" $file $a3ssCoordinatesFile > $name$normA3SSend
+    # old absolute path
+    #    awk -f "/Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/match_a3ss.awk" $file $a3ssCoordinatesFile > $name$normA3SSend
+    # new relative path
+    gawk -f "$AWK_SCRIPT" $file $a3ssCoordinatesFile > $name$normA3SSend
+    
 
 done
 
@@ -334,4 +344,9 @@ sed 's/ /,/g' < $SJC_w_coordinates_matrix > $SJC_w_coordinates_matrix_csv
 #            
 
 echo "track name=rMATS_A3SS description=\"rMATS A3SS Events DS-AML\"" > A3SS.coordinates.bed
-awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_a3ss.awk A3SS.coordinates.matrix.txt >> A3SS.coordinates.bed
+
+# old absolute path
+#     awk -f /Users/annedeslattesmays/Desktop/projects/post-rmats-single-run/bin/make_bed_a3ss.awk A3SS.coordinates.matrix.txt >> A3SS.coordinates.bed
+# new relative path
+gawk -f "$SCRIPT_DIR/../bin/make_bed_a3ss.awk" A3SS.coordinates.matrix.txt >> A3SS.coordinates.bed
+
